@@ -1,29 +1,31 @@
+<!-- Juan Pablo Canedo(349963) y Franco Cardozo(456912) -->
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="UTF-8">
+		<meta charset="UTF-8" >
 		<title>Document</title>
-		<link rel="stylesheet" href="estilos/estilo.css">
+		<link rel="stylesheet" href="estilos/estilo.css" >
 	</head>
 	<body>
 		<h1>Sitio de Corredores</h1>
 		<div class="image_container">
-			<img src="image.png" alt="banner">
+			<img src="image.png" alt="banner" >
 		</div>
-		<div class="buttons_container">
+		<nav>
 			<button>Datos</button>
 			<button>Estadisticas</button>
-		</div>
+		</nav>
 
 		<section id="Datos">
 			<h2>Datos</h2>
-			<article id="Carreras">
+			<article id="carreras">
 				<h3>Carreras</h3>
 				<form action="agregarCarrea">
-					<label for="nombre">Nombre:</label>
-					<input type="text" id="nombrePatrocinador">
-					<label for="nombrePatrocinador">Departamento:</label>
-					<select name="departamento" id="departamento">
+					<label for="carreras_nombre">Nombre:</label>
+					<input type="text" id="carreras_nombre" >
+					<label for="carreras_departamento">Departamento:</label>
+					<select name="departamento" id="carreras_departamento">
 						<option value="montevideo">Montevideo</option>
 						<option value="canelones">Canelones</option>
 						<option value="artigas">Artigas</option>
@@ -42,23 +44,23 @@
 						<option value="san_jose">San José</option>
 						<option value="soriano">Soriano</option>
 						<option value="tacuarembo">Tacuarembó</option>
-						<option value="treinta_y_res">treinta y Tres</option>
+						<option value="treinta_y_tres">treinta y Tres</option>
 					</select>
-					<label for="fecha">Fecha: </label>
-					<input type="date" name="fecha" id="fecha">
-					<label for="cupo">Cupo: </label>
-					<input type="number" name="cupo" id="number">
+					<label for="agregar_carrera_fecha">Fecha: </label>
+					<input type="date" name="fecha" id="agregar_carrera_fecha">
+					<label for="agregar_carrera_cupo">Cupo: </label>
+					<input type="number" name="cupo" id="agregar_carrera_cupo">
 					<input type="submit" value="Agregar Carrera">
 				</form>
 			</article>
 			<article id="Patrocinadores">
 				<h3>Patrocinadores</h3>
 				<form action="agregarPatrocinador">
-					<label for="nombre">Nombre:</label>
-					<input type="text" id="nombre" name="nombre">
+					<label for="patrocinadores_nombre">Nombre:</label>
+					<input type="text" id="patrocinadores_nombre" name="nombre">
 
-					<label for="rubro">Rubro:</label>
-					<select name="rubro" id="rubro">
+					<label for="patrocinadores_rubro">Rubro:</label>
+					<select name="rubro" id="patrocinadores_rubro">
 						<option value="alimenticio">Alimenticio</option>
 						<option value="Banco">Banco</option>
 						<option value="Bebidas">Bebidas</option>
@@ -68,10 +70,8 @@
 						<option value="General">General</option>
 					</select>
 
-					<label for="carreras">Carreras: </label>
-					<select name="rubro" id="carreras" multiple>
-
-					</select>
+					<label for="patrocinadores_carreras">Carreras: </label>
+					<select name="rubro" id="patrocinadores_carreras" multiple></select>
 
 					<input type="submit" value="Agregar/Actualizar Patrocinador">
 				</form>
@@ -79,32 +79,56 @@
 			<article id="Corredores">
 				<h3>Corredores</h3>
 				<form action="agregarCorredor">
-					<label for="nombreCorredor">Nombre:</label>
-					<input type="text" name="nombre" id="nombreCorredor">
-					<label for="edad">Edad:</label>
-					<input type="number" name="edad" id="edad">
-					<label for="cedula">Cedula:</label>
-					<input type="text" name="cedula" id="cedula">
+					<label for="corredores_nombreCorredor">Nombre:</label>
+					<input type="text" name="nombre" id="corredores_nombreCorredor">
+					<label for="corredores_edad">Edad:</label>
+					<input type="number" name="edad" id="corredores_edad">
+					<label for="corredores_cedula">Cedula:</label>
+					<input type="text" name="cedula" id="corredores_cedula">
 
-					<label for="fecha_vencimiento"
+					<label for="corredores_fecha_vencimiento"
 						>Fecha de vencimiento de ficha medica:
 					</label>
-					<input type="date"	name="fecha_vencimiento" id="fecha_vencimiemiento">
-					<label for="tipo_corredor">Deportista de élite</label>
-					<input type="radio" name="tipo_deportista" value="elite">
-					<label for="tipo_corredor">Deportista común</label>
-					<input type="radio" name="tipo_deportista" value="comun">
+					<input
+						type="date"
+						name="fecha_vencimiento"
+						id="corredores_fecha_vencimiento"
+					>
+					<label for="corredores_tipo_corredor_elite"
+						>Deportista de élite</label
+					>
+					<input
+						type="radio"
+						name="tipo_deportista"
+						value="elite"
+						id="corredores_tipo_corredor_elite"
+					>
+					<label for="corredores_tipo_corredor_elite_comun"
+						>Deportista común</label
+					>
+					<input
+						type="radio"
+						name="tipo_deportista"
+						value="comun"
+						id="corredores_tipo_corredor_elite_comun"
+					>
 
 					<input type="submit" value="Agregar Corredor">
 				</form>
 			</article>
-			<article id="Inscripciones">
+			<article id="inscripciones">
 				<h3>Inscripciones</h3>
 				<form action="inscribir">
-					<label for="corredores">Corredores: </label>
-					<select name="corredores"></select>
-					<label for="carreras">Carreras: </label>
-					<select name="carreras"></select>
+					<label for="inscripciones_corredores">Corredores: </label>
+					<select
+						id="inscripciones_corredores"
+						name="inscripciones_corredores"
+					></select>
+					<label for="inscripciones_carreras">Carreras: </label>
+					<select
+						id="inscripciones_carreras"
+						name="inscripciones_carreras"
+					></select>
 					<input type="submit" value="Inscribir">
 				</form>
 			</article>
@@ -124,12 +148,11 @@
 				</ul>
 				<p>Porcentaje de corredores de elite: sin datos</p>
 			</article>
-			<article>
+			<article id="Consulta_Inscriptos">
 				<h3>Consulta Inscriptos</h3>
 				<form action="#">
-					<label for="carrera">Carrera: </label>
-					<select name="carrera" id="carrera">
-					</select>
+					<label for="consulta_inscriptos_carrera">Carrera: </label>
+					<select name="carrera" id="consulta_inscriptos_carrera"></select>
 					<div>
 						<label>Ordenar por:</label>
 						<input
@@ -148,7 +171,7 @@
 						<label for="ci_ordenarpor_numero">Número: </label>
 					</div>
 				</form>
-				<br>
+				<br >
 				<table>
 					<caption>
 						Inscriptos
@@ -162,15 +185,23 @@
 					</tr>
 				</table>
 			</article>
-			<article>
+			<article id="visualizar_mapa">
 				<h3>Visualizar Mapa:</h3>
 				<form action="#">
 					<div>
-						<input type="radio" value="carreras" id="mapa_carreras">
-						<label for="mapa_carreras">Por Carreras</label>
+						<input
+							type="radio"
+							value="carreras"
+							id="visualizar_mapa_carreras"
+						>
+						<label for="visualizar_mapa_carreras">Por Carreras</label>
 
-						<input type="radio" value="inscripciones" id="mapa_inscripciones">
-						<label for="mapa_carreras">Por Inscripciones</label>
+						<input
+							type="radio"
+							value="inscripciones"
+							id="visualizar_mapa_inscripciones"
+						>
+						<label for="visualizar_mapa_inscripciones">Por Inscripciones</label>
 					</div>
 				</form>
 			</article>
