@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="UTF-8" />
+		<meta charset="UTF-8">
 		<title>Document</title>
-		<link rel="stylesheet" href="estilos/estilo.css" />
+		<link rel="stylesheet" href="estilos/estilo.css">
 	</head>
 	<body>
 		<h1>Sitio de Corredores</h1>
 		<div class="image_container">
-			<img src="image.png" alt="banner" />
+			<img src="image.png" alt="banner">
 		</div>
 		<div class="buttons_container">
 			<button>Datos</button>
@@ -21,8 +21,8 @@
 				<h3>Carreras</h3>
 				<form action="agregarCarrea">
 					<label for="nombre">Nombre:</label>
-					<input type="text" id="nombre" />
-					<label for="nombre">Departamento:</label>
+					<input type="text" id="nombrePatrocinador">
+					<label for="nombrePatrocinador">Departamento:</label>
 					<select name="departamento" id="departamento">
 						<option value="montevideo">Montevideo</option>
 						<option value="canelones">Canelones</option>
@@ -45,55 +45,57 @@
 						<option value="treinta_y_res">treinta y Tres</option>
 					</select>
 					<label for="fecha">Fecha: </label>
-					<input type="date" name="fecha" id="fecha" />
+					<input type="date" name="fecha" id="fecha">
 					<label for="cupo">Cupo: </label>
-					<input type="number" name="cupo" id="fecha" />
-					<input type="submit" value="Agregar Carrera" />
+					<input type="number" name="cupo" id="number">
+					<input type="submit" value="Agregar Carrera">
 				</form>
 			</article>
 			<article id="Patrocinadores">
 				<h3>Patrocinadores</h3>
 				<form action="agregarPatrocinador">
 					<label for="nombre">Nombre:</label>
-					<input type="text" id="nombre" name="nombre" />
+					<input type="text" id="nombre" name="nombre">
 
 					<label for="rubro">Rubro:</label>
 					<select name="rubro" id="rubro">
 						<option value="alimenticio">Alimenticio</option>
+						<option value="Banco">Banco</option>
+						<option value="Bebidas">Bebidas</option>
+						<option value="Farmacia">Farmacia</option>
+						<option value="Ropa Deportiva">Ropa Deportiva</option>
+						<option value="Estatal">Estatal</option>
+						<option value="General">General</option>
 					</select>
 
 					<label for="carreras">Carreras: </label>
 					<select name="rubro" id="carreras" multiple>
-						<option value=""></option>
+
 					</select>
 
-					<input type="submit" value="Agregar/Actualizar Patrocinador" />
+					<input type="submit" value="Agregar/Actualizar Patrocinador">
 				</form>
 			</article>
 			<article id="Corredores">
 				<h3>Corredores</h3>
 				<form action="agregarCorredor">
-					<label for="nombre">Nombre:</label>
-					<input type="text" name="nombre" id="nombre" />
+					<label for="nombreCorredor">Nombre:</label>
+					<input type="text" name="nombre" id="nombreCorredor">
 					<label for="edad">Edad:</label>
-					<input type="number" name="edad" id="edad" />
+					<input type="number" name="edad" id="edad">
 					<label for="cedula">Cedula:</label>
-					<input type="text" name="cedula" id="cedula" />
+					<input type="text" name="cedula" id="cedula">
 
 					<label for="fecha_vencimiento"
 						>Fecha de vencimiento de ficha medica:
 					</label>
-					<input
-						type="date"
-						name="fecha_vencimiento"
-						id="fecha_vencimiemiento"
-					/>
+					<input type="date"	name="fecha_vencimiento" id="fecha_vencimiemiento">
 					<label for="tipo_corredor">Deportista de élite</label>
-					<input type="radio" name="tipo_deportista" value="elite" />
+					<input type="radio" name="tipo_deportista" value="elite">
 					<label for="tipo_corredor">Deportista común</label>
-					<input type="radio" name="tipo_deportista" value="comun" />
+					<input type="radio" name="tipo_deportista" value="comun">
 
-					<input type="submit" value="Agregar Corredor" />
+					<input type="submit" value="Agregar Corredor">
 				</form>
 			</article>
 			<article id="Inscripciones">
@@ -103,7 +105,7 @@
 					<select name="corredores"></select>
 					<label for="carreras">Carreras: </label>
 					<select name="carreras"></select>
-					<input type="submit" value="Inscribir" />
+					<input type="submit" value="Inscribir">
 				</form>
 			</article>
 		</section>
@@ -127,7 +129,6 @@
 				<form action="#">
 					<label for="carrera">Carrera: </label>
 					<select name="carrera" id="carrera">
-						<option value=""></option>
 					</select>
 					<div>
 						<label>Ordenar por:</label>
@@ -136,18 +137,18 @@
 							id="ci_ordenarpor_nombre"
 							name="ci_ordenarpor"
 							value="nombre"
-						/>
+						>
 						<label for="ci_ordenarpor_nombre">Nombre: </label>
 						<input
 							type="radio"
 							id="ci_ordenarpor_numero"
 							name="ci_ordenarpor"
 							value="numero"
-						/>
+						>
 						<label for="ci_ordenarpor_numero">Número: </label>
 					</div>
 				</form>
-				<br />
+				<br>
 				<table>
 					<caption>
 						Inscriptos
@@ -165,10 +166,10 @@
 				<h3>Visualizar Mapa:</h3>
 				<form action="#">
 					<div>
-						<input type="radio" value="carreras" id="mapa_carreras" />
+						<input type="radio" value="carreras" id="mapa_carreras">
 						<label for="mapa_carreras">Por Carreras</label>
 
-						<input type="radio" value="inscripciones" id="mapa_inscripciones" />
+						<input type="radio" value="inscripciones" id="mapa_inscripciones">
 						<label for="mapa_carreras">Por Inscripciones</label>
 					</div>
 				</form>
