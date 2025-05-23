@@ -38,3 +38,11 @@ footer {
 	font-size: 13px;
 	font-weight: 500;
 }
+
+table {
+	border-collapse: collapse;
+}
+
+table, th, td {
+	border: 1px solid black;
+}
