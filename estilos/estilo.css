@@ -20,10 +20,21 @@ article {
 	padding: 0.5rem;
 	border-radius: 1rem;
 	margin-bottom: 0.5rem;
+	clear: bot;
 }
-form {
-	
-	display: flex;
-	flex-direction: column;
-	align-items: start;
+input, label, select {
+	display: block
+}
+
+.radio_container>input, .radio_container>label {
+	display: inline;
+}
+
+footer {
+	text-align: center;
+	background-color: #f0f4d4;
+	padding: 2rem;
+	border-radius: 1rem;
+	font-size: 13px;
+	font-weight: 500;
 }

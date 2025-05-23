@@ -10,7 +10,7 @@
 	<body>
 		<header>
 			<h1>Sitio de Corredores</h1>
-			<img src="image.png" alt="banner" >
+			<img src="image.png" alt="banner" width="250" >
 		</header>
 		
 		<nav>
@@ -50,7 +50,7 @@
 					<label for="agregar_carrera_fecha">Fecha: </label>
 					<input type="date" name="fecha" id="agregar_carrera_fecha">
 					<label for="agregar_carrera_cupo">Cupo: </label>
-					<input type="number" name="cupo" id="agregar_carrera_cupo">
+					<input type="number" name="cupo" id="agregar_carrera_cupo" value="30">
 					<input type="submit" value="Agregar Carrera">
 				</form>
 			</article>
@@ -95,6 +95,9 @@
 						name="corredores_fecha_vencimiento"
 						id="corredores_fecha_vencimiento"
 					>
+
+					<div class="radio_container">
+					<label>Tipo de corredor: </label>
 					<label for="corredores_tipo_corredor_elite"
 						>Deportista de élite</label
 					>
@@ -113,6 +116,8 @@
 						value="comun"
 						id="corredores_tipo_corredor_elite_comun"
 					>
+					</div>
+					
 
 					<input type="submit" value="Agregar Corredor">
 				</form>
@@ -189,7 +194,7 @@
 			<article id="visualizar_mapa">
 				<h3>Visualizar Mapa:</h3>
 				<form action="#">
-					<div>
+					<div class="radio_container">
 						<input
 							type="radio"
 							value="carreras"
@@ -208,6 +213,10 @@
 			</article>
 		</section>
 		<footer>
+			<p>Programación 1 - Obligatorio 1er Semestre 2025 - Autores:</p>
+			<p>Grupo M1E - Juan Pablo Canedo (Número 349963) - <a href="#">Link</a></p>
+			<p>Grupo M1E - Franco Cardozo (Número 345912) - <a href="#">Link</a></p>
+
 			<!-- TODO nombres y todo eso -->
 		</footer>
 	</body>
