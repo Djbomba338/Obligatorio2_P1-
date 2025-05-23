@@ -5,12 +5,12 @@
 	<head>
 		<meta charset="UTF-8" >
 		<title>Document</title>
-		<link rel="stylesheet" href="css/estilo.css" >
+		<link rel="stylesheet" href="css/estilos.css" >
 	</head>
 	<body>
 		<header>
 			<h1>Sitio de Corredores</h1>
-			<img src="./img/image.png" alt="banner" width="250" >
+			<img src="./img/image.png" alt="Banner del sitio de corredores" width="250" >
 		</header>
 		
 		<nav>
@@ -24,9 +24,9 @@
 				<h3>Carreras</h3>
 				<form action="#">
 					<label for="carreras_nombre">Nombre:</label>
-					<input type="text" id="carreras_nombre" >
+					<input type="text" id="carreras_nombre" required>
 					<label for="carreras_departamento">Departamento:</label>
-					<select name="departamento" id="carreras_departamento">
+					<select name="departamento" id="carreras_departamento" required>
 						<option value="montevideo">Montevideo</option>
 						<option value="canelones">Canelones</option>
 						<option value="artigas">Artigas</option>
@@ -48,9 +48,9 @@
 						<option value="treinta_y_tres">Treinta y Tres</option>
 					</select>
 					<label for="agregar_carrera_fecha">Fecha: </label>
-					<input type="date" name="fecha" id="agregar_carrera_fecha">
+					<input type="date" name="fecha" id="agregar_carrera_fecha" required>
 					<label for="agregar_carrera_cupo">Cupo: </label>
-					<input type="number" name="cupo" id="agregar_carrera_cupo" value="30" min="1" max="1000">
+					<input type="number" name="cupo" id="agregar_carrera_cupo" value="30" min="1" max="1000" required>
 					<input type="submit" value="Agregar Carrera">
 				</form>
 			</article>
@@ -58,10 +58,10 @@
 				<h3>Patrocinadores</h3>
 				<form action="#">
 					<label for="patrocinadores_nombre">Nombre:</label>
-					<input type="text" id="patrocinadores_nombre" name="nombre">
+					<input type="text" id="patrocinadores_nombre" name="nombre" required>
 
 					<label for="patrocinadores_rubro">Rubro:</label>
-					<select name="patrocinadores_rubro" id="patrocinadores_rubro">
+					<select name="patrocinadores_rubro" id="patrocinadores_rubro" required>
 						<option value="alimenticio">Alimenticio</option>
 						<option value="Banco">Banco</option>
 						<option value="Bebidas">Bebidas</option>
@@ -133,11 +133,13 @@
 					<select
 						id="inscripciones_corredores"
 						name="inscripciones_corredores"
+						required
 					></select>
 					<label for="inscripciones_carreras">Carreras: </label>
 					<select
 						id="inscripciones_carreras"
 						name="inscripciones_carreras"
+						required
 					></select>
 					<input type="submit" value="Inscribir">
 				</form>

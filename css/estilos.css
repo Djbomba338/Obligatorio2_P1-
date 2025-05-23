@@ -20,10 +20,9 @@ article {
 	padding: 0.5rem;
 	border-radius: 1rem;
 	margin-bottom: 0.5rem;
-	clear: bot;
 }
 input, label, select {
-	display: block
+	display: block;
 }
 
 .radio_container>input, .radio_container>label {
