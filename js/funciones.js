@@ -122,7 +122,7 @@ function sacarDatosCorredores(evento){
 function sacarDatosInscripcion(evento){
     evento.preventDefault()
     let selectCorredor = document.getElementById("inscripciones_corredores");
-    let corredorSeleccionado = selectCorredor.cedula;
+    let corredorSeleccionado = selectCorredor.value;
     let selectCarrera = document.getElementById("inscripciones_carreras");
     let carreraSeleccionadaNombre = selectCarrera.value;
     let carreraSeleccionada ;
@@ -132,8 +132,10 @@ function sacarDatosInscripcion(evento){
             break;
         }
     }
+    let corredorEncontrado = sistema.encontrarCorredor(corredorSeleccionado)
+    
 
-    if(sistema.valdiarNuevaInscripcion(carreraSeleccionada) && !sistema.validarFichaMedica(fecha)) {   
+    if(sistema.valdiarNuevaInscripcion(carreraSeleccionada) && !sistema.validarFichaMedica(corredorEncontrado)) {   
         let newArray =  new Inscripcion(corredorSeleccionado , carreraSeleccionada)
         sistema.nuevaInscripcion(newArray)
     } else {

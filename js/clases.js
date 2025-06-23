@@ -80,9 +80,13 @@ class Sistema {
     }
 
     encontrarCorredor(cedula){
+        let nuevaCedula = ""
+        for (let i= cedula.length - 9; i> cedula.length -1; i++) {
+            nuevaCedula += cedula[i]   
+        }
         for (let i = 0; i < this.listaCorredor.length ; i++){
-            if(this.listaCorredor[i].cedula == cedula){ 
-                return this.listaCorredor[i]
+            if(this.listaCorredor[i].cedula == nuevaCedula){ 
+                return this.listaCorredor[i].fichaMedica
             }
         }
     }
