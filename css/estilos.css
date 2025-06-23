@@ -45,3 +45,11 @@ table {
 table, th, td {
 	border: 1px solid black;
 }
+
+#estadisticas {
+	display: none
+}
+
+button:focus{
+	background-color: blue;
+}

@@ -6,6 +6,8 @@
 		<meta charset="UTF-8" >
 		<title>Document</title>
 		<link rel="stylesheet" href="css/estilos.css" >
+		<script src="js/clases.js"></script>
+		<script src="js/funciones.js"></script>
 	</head>
 	<body>
 		<header>
@@ -14,8 +16,8 @@
 		</header>
 		
 		<nav>
-			<button>Datos</button>
-			<button>Estadisticas</button>
+			<button id="idDatos">Datos</button>
+			<button id="idEstadisticas">Estadisticas</button>
 		</nav>
 
 		<section id="datos">
@@ -27,31 +29,31 @@
 					<input type="text" id="carreras_nombre" required>
 					<label for="carreras_departamento">Departamento:</label>
 					<select name="departamento" id="carreras_departamento" required>
-						<option value="montevideo">Montevideo</option>
-						<option value="canelones">Canelones</option>
-						<option value="artigas">Artigas</option>
-						<option value="cerro_largo">Cerro largo</option>
-						<option value="colonia">Colonia</option>
-						<option value="durazno">Durazno</option>
-						<option value="flores">Flores</option>
-						<option value="florida">Florida</option>
-						<option value="lavalleja">Lavalleja</option>
-						<option value="maldonado">Maldonado</option>
-						<option value="paysandu">Paysandú</option>
-						<option value="rio_negro">Rio Negro</option>
-						<option value="rivera">Rivera</option>
-						<option value="rocha">Rocha</option>
-						<option value="salto">Salto</option>
-						<option value="san_jose">San José</option>
-						<option value="soriano">Soriano</option>
-						<option value="tacuarembo">Tacuarembó</option>
-						<option value="treinta_y_tres">Treinta y Tres</option>
+						<option value="1">Montevideo</option>
+						<option value="2">Canelones</option>
+						<option value="3">Maldonado</option>
+						<option value="4">Rocha</option>
+						<option value="5">Treinta y Tres</option>
+						<option value="6">Cerro largo</option>
+						<option value="7">Rivera</option>
+						<option value="8">Artigas</option>
+						<option value="9">Salto</option>
+						<option value="10">Paysandú</option>
+						<option value="11">Rio Negro</option>
+						<option value="12">Soriano</option>
+						<option value="13">Colonia</option>
+						<option value="14">San José</option>
+						<option value="15">Flores</option>
+						<option value="16">Florida</option>
+						<option value="17">Lavalleja</option>
+						<option value="18">Durazno</option>
+						<option value="19">Tacuarembó</option>
 					</select>
 					<label for="agregar_carrera_fecha">Fecha: </label>
 					<input type="date" name="fecha" id="agregar_carrera_fecha" required>
 					<label for="agregar_carrera_cupo">Cupo: </label>
 					<input type="number" name="cupo" id="agregar_carrera_cupo" value="30" min="1" max="1000" required>
-					<input type="submit" value="Agregar Carrera">
+					<input type="submit" id="agregar_carrera" value="Agregar Carrera">
 				</form>
 			</article>
 			<article id="Patrocinadores">
@@ -76,7 +78,7 @@
 			
 					</select>
 
-					<input type="submit" value="Agregar/Actualizar Patrocinador">
+					<input type="submit" id="agregar_patrocinador" value="Agregar/Actualizar Patrocinador">
 				</form>
 			</article>
 			<article id="Corredores">
@@ -123,7 +125,7 @@
 					</div>
 					
 
-					<input type="submit" value="Agregar Corredor">
+					<input type="submit" id="agregar_corredor"value="Agregar Corredor">
 				</form>
 			</article>
 			<article id="inscripciones">
@@ -141,7 +143,7 @@
 						name="inscripciones_carreras"
 						required
 					></select>
-					<input type="submit" value="Inscribir">
+					<input type="submit" id="agregar_inscripcion" value="Inscribir">
 				</form>
 			</article>
 		</section>
