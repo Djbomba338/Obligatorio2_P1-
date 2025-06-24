@@ -6,6 +6,7 @@
 		<meta charset="UTF-8" >
 		<title>Document</title>
 		<link rel="stylesheet" href="css/estilos.css" >
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 		<script src="js/clases.js"></script>
 		<script src="js/funciones.js"></script>
@@ -25,7 +26,7 @@
 			<h2>Datos</h2>
 			<article id="carreras">
 				<h3>Carreras</h3>
-				<form action="#">
+				<form action="#" id="carreras_form">
 					<label for="carreras_nombre">Nombre:</label>
 					<input type="text" id="carreras_nombre" required>
 					<label for="carreras_departamento">Departamento:</label>
@@ -51,7 +52,7 @@
 						<option value="19">Tacuarembó</option>
 					</select>
 					<label for="agregar_carrera_fecha">Fecha: </label>
-					<input type="date" name="fecha" id="agregar_carrera_fecha" required>
+					<input required type="date" name="fecha" id="agregar_carrera_fecha">
 					<label for="agregar_carrera_cupo">Cupo: </label>
 					<input type="number" name="cupo" id="agregar_carrera_cupo" value="30" min="1" max="1000" required>
 					<input type="submit" id="agregar_carrera" value="Agregar Carrera">
@@ -59,7 +60,7 @@
 			</article>
 			<article id="Patrocinadores">
 				<h3>Patrocinadores</h3>
-				<form action="#">
+				<form action="#" id="patrocinadores_form">
 					<label for="patrocinadores_nombre">Nombre:</label>
 					<input type="text" id="patrocinadores_nombre" name="nombre" required>
 
@@ -84,7 +85,7 @@
 			</article>
 			<article id="Corredores">
 				<h3>Corredores</h3>
-				<form action="#">
+				<form action="#" id="corredores_form">
 					<label for="corredores_nombreCorredor">Nombre:</label>
 					<input type="text" name="corredores_nombreCorredor" id="corredores_nombreCorredor" required>
 					<label for="corredores_edad">Edad:</label>
@@ -131,7 +132,7 @@
 			</article>
 			<article id="inscripciones">
 				<h3>Inscripciones</h3>
-				<form action="#">
+				<form action="#" id="inscripciones_form">
 					<label for="inscripciones_corredores">Corredores: </label>
 					<select
 						id="inscripciones_corredores"
@@ -161,10 +162,10 @@
 					<li>sin datos</li>
 				</ul>
 				<p>Carreras sin inscriptios ordenadas por fecha</p>
-				<ul>
+				<ul id="lista_carreras_sin_inscriptos">
 					<li>sin datos</li>
 				</ul>
-				<p>Porcentaje de corredores de elite: sin datos</p>
+				<p>Porcentaje de corredores de elite: <span id="output_porcentaje_elite">sin datos</span></p>
 			</article>
 			<article id="Consulta_Inscriptos">
 				<h3>Consulta Inscriptos</h3>
@@ -205,11 +206,14 @@
 			</article>
 			<article id="visualizar_mapa">
 				<h3>Visualizar Mapa:</h3>
+				<div id="mapa_uruguay" style="width: 600px; height: 400px;"></div>
+				
 				<form action="#">
 					<div class="radio_container">
 						<input
 							type="radio"
 							value="carreras"
+							name="visualizar_mapa"
 							id="visualizar_mapa_carreras"
 							checked
 						>
@@ -219,6 +223,7 @@
 							type="radio"
 							value="inscripciones"
 							id="visualizar_mapa_inscripciones"
+							name="visualizar_mapa"
 						>
 						<label for="visualizar_mapa_inscripciones">Por Inscripciones</label>
 					</div>

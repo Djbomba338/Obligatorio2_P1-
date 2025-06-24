@@ -53,3 +53,7 @@ table, th, td {
 button:focus{
 	background-color: blue;
 }
+
+#mapa_uruguay {
+	border-radius: 1px;
+}

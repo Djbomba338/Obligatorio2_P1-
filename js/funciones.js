@@ -5,10 +5,11 @@ let patrocinador = new Patrocinador()
 function inicio(){
     document.getElementById("idDatos").addEventListener("click", mostrar)
     document.getElementById("idEstadisticas").addEventListener("click", mostrar)
-    document.getElementById("agregar_carrera").addEventListener("click", sacarDatosCarrera)
-    document.getElementById("agregar_patrocinador").addEventListener("click", sacarDatosPatrocinador)
-    document.getElementById("agregar_corredor").addEventListener("click", sacarDatosCorredores)
-    document.getElementById("agregar_inscripcion").addEventListener("click", sacarDatosInscripcion)
+
+    document.getElementById("carreras_form").addEventListener("submit", sacarDatosCarrera)
+    document.getElementById("patrocinadores_form").addEventListener("submit", sacarDatosPatrocinador)
+    document.getElementById("corredores_form").addEventListener("submit", sacarDatosCorredores)
+    document.getElementById("inscripciones_form").addEventListener("submit", sacarDatosInscripcion)
 }
 
 
@@ -40,26 +41,12 @@ function actualizarSelectCarreras(selectId) {
 
 // ------------------------------ Carreras ---------------------------
 
-function extraerDatosCarrera() {
-    let inputCarreraNombre = document.getElementById("carreras_nombre");
-    let inputCarreraDepartamento = document.getElementById("carreras_departamento");
-    let inputCarreraFecha = document.getElementById("agregar_carrera_fecha");
-    let inputCarreraCupos = document.getElementById("agregar_carrera_cupo");
-    
-    let carreraNombre = inputCarreraNombre.value
-    let carreraDepartamento = inputCarreraDepartamento.value
-    let carreraFecha = inputCarreraFecha.value
-    let carreraCupos = inputCarreraCupos.value
-
-    return new Carrera(carreraNombre, carreraDepartamento, carreraFecha, carreraCupos)
-}
-
 
 function sacarDatosCarrera (evento){
     evento.preventDefault()
     let newNombre = document.getElementById("carreras_nombre").value
     let newDepartamento = document.getElementById("carreras_departamento").value
-    let newFecha = document.getElementById("agregar_carrera_fecha").value
+    let newFecha = new Date(document.getElementById("agregar_carrera_fecha").value)
     let newCupos = document.getElementById("agregar_carrera_cupo").value
     
     if(!sistema.existeCarrera(newNombre)) {
@@ -88,7 +75,7 @@ function sacarDatosCorredores(evento){
     let newNombre = document.getElementById("corredores_nombreCorredor").value
     let cedula = document.getElementById("corredores_cedula").value
     let edad = document.getElementById("corredores_edad").value
-    let fecha = document.getElementById("corredores_fecha_vencimiento").value
+    let fecha = new Date(document.getElementById("corredores_fecha_vencimiento").value)
     let tipoCorredor = ""
     if(document.getElementById("corredores_tipo_corredor_elite").checked){
         tipoCorredor = "Deportista de élite"
@@ -163,11 +150,8 @@ function sacarDatosInscripcion(evento){
     let corredorEncontrado = sistema.encontrarCorredor(selectCorredor.value)
     let carreraEncontrada = sistema.encontrarCarrera(selectCarrera.value);
 
-    console.log(carreraEncontrada)
-    console.log(corredorEncontrado)
-
     let patrocinadoresEncontrados = []
-    
+
     for (let i = 0; i < sistema.listaPatrocinadores.length; i++) {
         if (sistema.listaPatrocinadores[i].carreras.includes(carreraEncontrada.nombre)){
             patrocinadoresEncontrados.push(sistema.listaPatrocinadores[i]);
@@ -217,17 +201,39 @@ function descargarInscripcionPDF(info) {
 //-----------------Interfaz-----------------------------
 
 function actualizar() {
+    actualizarPromedioInscriptos()
+    actualizarCarrerasMasInscriptos()
+    actualizarCarrerasSinInscriptos()
+}
+
+
+function actualizarPromedioInscriptos() {
     let output_promedio_inscriptos = document.getElementById("output_promedio_inscriptos")
     output_promedio_inscriptos.innerText = promedioInscriptosPorCarrera()
+}
 
-    let lista_carreras_mas_inscriptos = document.getElementById("lista_carreras_mas_inscriptos")
+function actualizarCarrerasMasInscriptos() {
+    let lista = document.getElementById("lista_carreras_mas_inscriptos")
+    let html = "" 
+    for (let carrera of carrerasConMasInscriptos()) {
+        html += `<li>${carrera.nombre}</li>`
+    }
+    lista.innerHTML = html
+}
 
-    let temp = ""
-    for (carrera of carrerasConMasIn)
+function actualizarCarrerasSinInscriptos() {
+    let lista = document.getElementById("lista_carreras_sin_inscriptos")
+    let html = "" 
+    for (let carrera of carrerasSinInscriptos()) {
+        html += `<li>${carrera.nombre}</li>`
+    }
+    lista.innerHTML = html
+}
 
-    lista_carreras_mas_inscriptos.innerHTML = temp
+function actualizarPorcentajeElite() {
+    let output_porcentaje_elite = document.getElementById("output_porcentaje_elite")
 
-
+    output_porcentaje_elite.innerHTML = porcentajeCorredoresElite()
 }
 
 
@@ -261,10 +267,10 @@ function carrerasSinInscriptos() {
     let carrerasSinInscriptos = [];
     for (let carrera of sistema.listaCarreras) {
         if (carrera.cuposUsados === 0) {
-            carrerasSinInscriptos.push(carrera.nombre);
+            carrerasSinInscriptos.push(carrera);
         }
     }
-    carrerasSinInscriptos.reverse(sort(Date));
+    carrerasSinInscriptos.sort((a, b) => a.fecha - b.fecha)
     return carrerasSinInscriptos;
 }
 //------------------------Funciones de Corredores-------------------------
@@ -280,3 +286,55 @@ function porcentajeCorredoresElite(){
 }
 
 //----------------------------------------------------------------
+//------------------consulta de inscriptos -----------------------
+3
+// ----------- Mapa Uruguay con GeoChart -----------
+function dibujarMapaUruguay(datosDepartamentos) {
+    google.charts.load('current', {
+        'packages':['geochart'],
+        // Solo Uruguay
+        'mapsApiKey': 'TU_API_KEY_SI_LA_PEDÍS' // Opcional, para más detalles
+    });
+    google.charts.setOnLoadCallback(function() {
+        var data = google.visualization.arrayToDataTable([
+            ['Region', 'Valor'],
+            // Ejemplo: ['UY-CA', 10], // Canelones
+            // Llená esto con tus datos reales
+            ...datosDepartamentos
+        ]);
+
+        var options = {
+            region: 'UY', // Uruguay
+            displayMode: 'regions',
+            resolution: 'provinces',
+            colorAxis: {colors: ['#e0f3db', '#43a2ca']}
+        };
+
+        var chart = new google.visualization.GeoChart(document.getElementById('mapa_uruguay'));
+        chart.draw(data, options);
+    });
+}
+let datos = [
+    ['Region', 'Inscriptos'],
+    ['UY-CA', 10], // Canelones
+    ['UY-MO', 5],  // Montevideo
+    ['UY-MA', 2],  // Maldonado
+    ['UY-RO', 3],  // Rocha
+    ['UY-PA', 4],  // Paysandú
+    ['UY-SJ', 6],  // San José
+    ['UY-TA', 1],  // Tacuarembó
+    ['UY-FS', 8],  // Florida
+    ['UY-CO', 7],  // Colonia
+    ['UY-CA', 9],  // Canelones
+    ['UY-AR', 2],  // Artigas
+    ['UY-CA', 3],  // Cerro Largo
+    ['UY-PA', 4],  // Paysandú
+    ['UY-SO', 5],  // Soriano
+    ['UY-TA', 6],  // Tacuarembó
+    ['UY-RO', 7],  // Rivera
+    ['UY-FS', 8],  // Flores
+    ['UY-LA', 9],  // Lavalleja
+    ['UY-MA', 10]  // Maldonado
+    // ...otros departamentos
+];
+dibujarMapaUruguay(datos);

@@ -172,7 +172,7 @@ class Corredor {
         this.edad = edad
         this.cedula =  cedula 
         this.fichaMedica = fichaMedica
-        this.tipo =  tipo 
+        this.tipo =  tipo
     }
     toString(){
         return this.nombre + this.edad + "años CI:" + this.cedula + this.fichaMedica + this.tipo
