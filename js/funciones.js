@@ -209,7 +209,29 @@ function descargarInscripcionPDF(info) {
 }
 
 // ------------------------------------------------------------------
+
+
+
 //-------------------------Estadisticas-------------------------
+
+//-----------------Interfaz-----------------------------
+
+function actualizar() {
+    let output_promedio_inscriptos = document.getElementById("output_promedio_inscriptos")
+    output_promedio_inscriptos.innerText = promedioInscriptosPorCarrera()
+
+    let lista_carreras_mas_inscriptos = document.getElementById("lista_carreras_mas_inscriptos")
+
+    let temp = ""
+    for (carrera of carrerasConMasIn)
+
+    lista_carreras_mas_inscriptos.innerHTML = temp
+
+
+}
+
+
+
 //------------------------Funciones de Carreras-------------------------
 function promedioInscriptosPorCarrera() {
     let totalInscriptosEnCarreras = 0;
@@ -221,15 +243,18 @@ function promedioInscriptosPorCarrera() {
 }
 
 function carrerasConMasInscriptos() {
-    let carreraMasCuposUsados = ""
+    let carrerasMasCuposUsados = []
     let maxCuposUsados = 0;
     for (let carrera of sistema.listaCarreras) {
         if (carrera.cuposUsados > maxCuposUsados) {
             maxCuposUsados = carrera.cuposUsados;
-            carreraMasCuposUsados = carrera.nombre;
+            carrerasMasCuposUsados = [];
+            carrerasMasCuposUsados.push(carrera);
+        } else if (carrera.cuposUsados == maxCuposUsados) {
+            carrerasMasCuposUsados.push(carrera);
         }
     }
-    return carreraMasCuposUsados;
+    return carrerasMasCuposUsados;
 }
 
 function carrerasSinInscriptos() {
@@ -251,6 +276,7 @@ function porcentajeCorredoresElite(){
             totalCorredoresElite += 1;
         }
     }
+    return ((totalCorredoresElite / totalCorredores) * 100)
 }
 
 //----------------------------------------------------------------
