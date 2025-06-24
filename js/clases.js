@@ -61,16 +61,6 @@ class Sistema {
         return esValida
     }
 
-    validarFichaMedica(fichaMedica){
-        let esValida = false
-        for (let i = 0; i < this.listaCarreras.length && !esValida ; i++){
-            if(this.listaCarreras[i].fecha > fichaMedica){
-                esValida = true
-            } 
-        }
-        return esValida
-    }
-
     ordenarCorredoresPorNombre() {
         this.listaCorredores.sort((a, b) => a.nombre.localeCompare(b.nombre));
     }
@@ -117,11 +107,13 @@ class Sistema {
     //------------------------------Inscripciones------------------------
 
     manejadorNuevaInscripcion(inscripcion) {
-        if(inscripcion.cararera.hayCuposDisponibles()) {
+        let carrera = inscripcion.carrera
+        let corredor = inscripcion.corredor
+        if(carrera.hayCuposDisponibles() && carrera.validarFichaMedica(corredor.fichaMedica) ){
             this.agregarInscripcion(inscripcion)
-            inscripcion.carrera.cuposUsados += 1
+            carrera.cuposUsados += 1
         } else {
-            alert("No hay cupos disponibles")
+            alert("No es posible agregar Inscripcion")
         }
     }
 
@@ -163,6 +155,14 @@ class Carrera {
     hayCuposDisponibles(){
         return this.cuposUsados < this.cuposMaximos
     }
+
+    validarFichaMedica(fichaMedica){
+        let esValida = true
+            if(this.fecha > fichaMedica){
+                esValida = false
+            } 
+        return esValida
+    }
 }
 
 
@@ -173,10 +173,6 @@ class Corredor {
         this.cedula =  cedula 
         this.fichaMedica = fichaMedica
         this.tipo =  tipo 
-        this.numeroInscripcion = numeroInscripcion
-    }
-    agregarInscripcion(numeroInscripcion){
-        this.numeroInscripcion.push(numeroInscripcion)
     }
     toString(){
         return this.nombre + this.edad + "años CI:" + this.cedula + this.fichaMedica + this.tipo
@@ -185,10 +181,10 @@ class Corredor {
 
 
 class Inscripcion {
-    constructor (corredor, carrera , numeroInscripcion){
-        this.corredor = corredor 
+    constructor (corredor, carrera, numeroInscripcion){
+        this.corredor = corredor
         this.carrera = carrera
-        this.numeroInscripcion = numeroInscripcion 
+        this.numeroInscripcion = numeroInscripcion
     }
     toString(){
         return this.corredor + this.carrera + this.numeroInscripcion

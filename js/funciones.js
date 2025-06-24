@@ -174,28 +174,27 @@ function sacarDatosInscripcion(evento){
         }
     }
 
-    let nombrePatro = ""
-    let rubroPatro = ""
-    if(patrocinadorEncontrado) {
-        nombrePatro = patrocinadorEncontrado.nombre;
-        rubroPatro = patrocinadorEncontrado.rubro;
+    let nombresPatrocinadores = []
+    let rubrosPatrocinadores = []
+
+    if(patrocinadoresEncontrados.length > 0) {
+        for(let i =0; i < patrocinadoresEncontrados.length; i++) {
+            nombresPatrocinadores.push(patrocinadoresEncontrados[i].nombre)
+            rubrosPatrocinadores.push(patrocinadoresEncontrados[i].rubro)
+        }
     }
 
 
-    if(sistema.manejadorNuevaInscripcion(carreraEncontrada) && !sistema.validarFichaMedica(corredorEncontrado.fichaMedica)) {   
-        let numeroIns = carreraEncontrada.cuposUsados + 1
-        corredor.agregarInscripcion(numeroIns)
-        let newArray =  new Inscripcion(corredorSeleccionado , carreraEncontrada , numeroIns)
-        sistema.manejadorNuevaInscripcion(newArray)
-        let info = "corredor:" + corredorEncontrado.nombre + "\nedad:" + corredorEncontrado.edad + "\ncedula:" + corredorEncontrado.cedula + "\nficha medica:" + corredorEncontrado.fichaMedica + "\nTipo de corredor: "+ corredorEncontrado.tipo+ "\ncarrera:" + carreraEncontrada.nombre + "\nDepartamento:" + carreraEncontrada.departamento+"\nfecha:" + carreraEncontrada.fecha + "\ncupos usados:" + carreraEncontrada.cuposUsados + "\nNombre de patrocinador: " + nombrePatro + "\nRubro de patrocinador: " + rubroPatro
-        alert(info);
+    let numeroIns = carreraEncontrada.cuposUsados + 1
+    let inscripcion = new Inscripcion(corredorEncontrado, carreraEncontrada, numeroIns)
+    sistema.manejadorNuevaInscripcion(inscripcion);
+    
 
-        descargarInscripcionPDF(info);
-    } else {
-        alert("No hay cupos disponibles para esta carrera, o la ficha médica está vencida para la fecha de la carrera.")
-    }
+let info = "corredor:" + corredorEncontrado.nombre + "\nedad:" + corredorEncontrado.edad + "\ncedula:" + corredorEncontrado.cedula + "\nficha medica:" + corredorEncontrado.fichaMedica + "\nTipo de corredor: "+ corredorEncontrado.tipo+ "\ncarrera:" + carreraEncontrada.nombre + "\nDepartamento:" + carreraEncontrada.departamento+"\nfecha:" + carreraEncontrada.fecha + "\ncupos usados:" + carreraEncontrada.cuposUsados + "\nNombre/es de patrocinador/es: " + nombresPatrocinadores + "\nRubro/s de patrocinador/es: " + rubrosPatrocinadores
+alert(info);
+descargarInscripcionPDF(info);
 }
- 
+
 // ---------------------------------------------
 
 
@@ -211,7 +210,7 @@ function descargarInscripcionPDF(info) {
 
 // ------------------------------------------------------------------
 //-------------------------Estadisticas-------------------------
-//------------------------Promedio de inscriptos por carrera-------------------------
+//------------------------Funciones de Carreras-------------------------
 function promedioInscriptosPorCarrera() {
     let totalInscriptosEnCarreras = 0;
     for (let carrera of sistema.listaCarreras) {
@@ -220,7 +219,7 @@ function promedioInscriptosPorCarrera() {
     totalInscriptosEnCarreras = totalInscriptosEnCarreras / sistema.listaCarreras.length;
     return totalInscriptosEnCarreras.toFixed(2);
 }
-//------------------------Carreras con más inscriptos-------------------------
+
 function carrerasConMasInscriptos() {
     let carreraMasCuposUsados = ""
     let maxCuposUsados = 0;
@@ -231,6 +230,27 @@ function carrerasConMasInscriptos() {
         }
     }
     return carreraMasCuposUsados;
+}
+
+function carrerasSinInscriptos() {
+    let carrerasSinInscriptos = [];
+    for (let carrera of sistema.listaCarreras) {
+        if (carrera.cuposUsados === 0) {
+            carrerasSinInscriptos.push(carrera.nombre);
+        }
+    }
+    carrerasSinInscriptos.reverse(sort(Date));
+    return carrerasSinInscriptos;
+}
+//------------------------Funciones de Corredores-------------------------
+function porcentajeCorredoresElite(){
+    let totalCorredoresElite = 0
+    let totalCorredores = sistema.listaCorredores.length;
+    for (let corredor of listaCorredores){
+        if(corredor.tipo === "Deportista de élite") {
+            totalCorredoresElite += 1;
+        }
+    }
 }
 
 //----------------------------------------------------------------
