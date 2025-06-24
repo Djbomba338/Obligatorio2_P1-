@@ -137,6 +137,15 @@ class Sistema {
     //----------------------------
 
     //-------------------otros--------------------------
+
+    encontrarPatrocinadoresDeCarrera(carrera) {
+        for (let i = 0; i < sistema.listaPatrocinadores.length; i++) {
+        if (sistema.listaPatrocinadores[i].carrera.includes(carreraEncontrada.nombre)){
+            patrocinadorEncontrado = sistema.listaPatrocinadores[i];
+            break;
+            }
+        }
+    }
 }
 
 
@@ -188,10 +197,10 @@ class Inscripcion {
 
 
 class Patrocinador {
-    constructor(nombre,rubro,carrera = []){
+    constructor(nombre,rubro,carreras = []){
         this.nombre = nombre 
         this.rubro = rubro 
-        this.carrera = carrera
+        this.carreras = carreras
     }
     agregarCarrera(carrera){
         this.carrera.push(carrera)

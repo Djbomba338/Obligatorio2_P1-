@@ -130,16 +130,16 @@ function sacarDatosPatrocinador(evento){
     let newNombre = document.getElementById("patrocinadores_nombre").value
     let newRubro = document.getElementById("patrocinadores_rubro").value
     let select = document.getElementById("patrocinadores_carreras");
-    let carreraSeleccionada = []
+    let carreraEncontrada = []
     for (let i = 0; i < select.options.length; i++) {
         if (select.options[i].selected) {
-            carreraSeleccionada.push(select.options[i].value);
+            carreraEncontrada.push(select.options[i].value);
         }
     }
     if (sistema.existePatrocinador(newNombre)) {
         sistema.actualizarRubroPatrocinador(newNombre, newRubro)
     } else {
-        let newArray =  new Patrocinador(newNombre , newRubro, carreraSeleccionada)
+        let newArray =  new Patrocinador(newNombre , newRubro, carreraEncontrada)
         sistema.agregarPatrocinador(newArray) 
     }
 
@@ -161,19 +161,19 @@ function sacarDatosInscripcion(evento){
     let selectPatrocinador = document.getElementById("patrocinadores_carreras");
 
     let corredorEncontrado = sistema.encontrarCorredor(selectCorredor.value)
+    let carreraEncontrada = sistema.encontrarCarrera(selectCarrera.value);
 
-    let carreraSeleccionadaNombre = selectCarrera.value;
-    let carreraSeleccionada = sistema.encontrarCarrera(carreraSeleccionadaNombre);
+    console.log(carreraEncontrada)
+    console.log(corredorEncontrado)
 
-    let patrocinadorEncontrado = ""
+    let patrocinadoresEncontrados = []
     
-
     for (let i = 0; i < sistema.listaPatrocinadores.length; i++) {
-        if (sistema.listaPatrocinadores[i].carrera.includes(carreraSeleccionadaNombre)){
-            patrocinadorEncontrado = sistema.listaPatrocinadores[i];
-            break;
+        if (sistema.listaPatrocinadores[i].carreras.includes(carreraEncontrada.nombre)){
+            patrocinadoresEncontrados.push(sistema.listaPatrocinadores[i]);
         }
     }
+
     let nombrePatro = ""
     let rubroPatro = ""
     if(patrocinadorEncontrado) {
@@ -182,12 +182,12 @@ function sacarDatosInscripcion(evento){
     }
 
 
-    if(sistema.manejadorNuevaInscripcion(carreraSeleccionada) && !sistema.validarFichaMedica(corredorEncontrado.fichaMedica)) {   
-        let numeroIns = carreraSeleccionada.cuposUsados + 1
+    if(sistema.manejadorNuevaInscripcion(carreraEncontrada) && !sistema.validarFichaMedica(corredorEncontrado.fichaMedica)) {   
+        let numeroIns = carreraEncontrada.cuposUsados + 1
         corredor.agregarInscripcion(numeroIns)
-        let newArray =  new Inscripcion(corredorSeleccionado , carreraSeleccionada , numeroIns)
+        let newArray =  new Inscripcion(corredorSeleccionado , carreraEncontrada , numeroIns)
         sistema.manejadorNuevaInscripcion(newArray)
-        let info = "corredor:" + corredorEncontrado.nombre + "\nedad:" + corredorEncontrado.edad + "\ncedula:" + corredorEncontrado.cedula + "\nficha medica:" + corredorEncontrado.fichaMedica + "\nTipo de corredor: "+ corredorEncontrado.tipo+ "\ncarrera:" + carreraSeleccionada.nombre + "\nDepartamento:" + carreraSeleccionada.departamento+"\nfecha:" + carreraSeleccionada.fecha + "\ncupos usados:" + carreraSeleccionada.cuposUsados + "\nNombre de patrocinador: " + nombrePatro + "\nRubro de patrocinador: " + rubroPatro
+        let info = "corredor:" + corredorEncontrado.nombre + "\nedad:" + corredorEncontrado.edad + "\ncedula:" + corredorEncontrado.cedula + "\nficha medica:" + corredorEncontrado.fichaMedica + "\nTipo de corredor: "+ corredorEncontrado.tipo+ "\ncarrera:" + carreraEncontrada.nombre + "\nDepartamento:" + carreraEncontrada.departamento+"\nfecha:" + carreraEncontrada.fecha + "\ncupos usados:" + carreraEncontrada.cuposUsados + "\nNombre de patrocinador: " + nombrePatro + "\nRubro de patrocinador: " + rubroPatro
         alert(info);
 
         descargarInscripcionPDF(info);
@@ -223,5 +223,14 @@ function promedioInscriptosPorCarrera() {
 //------------------------Carreras con más inscriptos-------------------------
 function carrerasConMasInscriptos() {
     let carreraMasCuposUsados = ""
+    let maxCuposUsados = 0;
+    for (let carrera of sistema.listaCarreras) {
+        if (carrera.cuposUsados > maxCuposUsados) {
+            maxCuposUsados = carrera.cuposUsados;
+            carreraMasCuposUsados = carrera.nombre;
+        }
+    }
+    return carreraMasCuposUsados;
 }
+
 //----------------------------------------------------------------
