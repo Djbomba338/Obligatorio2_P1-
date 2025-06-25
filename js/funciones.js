@@ -10,6 +10,7 @@ function inicio(){
     document.getElementById("patrocinadores_form").addEventListener("submit", sacarDatosPatrocinador)
     document.getElementById("corredores_form").addEventListener("submit", sacarDatosCorredores)
     document.getElementById("inscripciones_form").addEventListener("submit", sacarDatosInscripcion)
+    document.getElementById("ci_ordenarpor_nombre").addEventListener("submit", consultarInscriptos)
 }
 
 
@@ -63,9 +64,20 @@ function sacarDatosCarrera (evento){
         document.getElementById("agregar_carrera_cupo").value = "30"
         sistema.ordenarCarrerasPorNombre();
         actualizarSelectCarreras("inscripciones_carreras");
+        actualizarSelectCarrerasInscripcion("consulta_inscriptos_carrera")
     }
 }
 
+function actualizarSelectCarrerasInscripcion(selectId) {
+    let select = document.getElementById(selectId);
+    select.innerHTML = "";
+    for (let carrera of sistema.listaCarreras) {
+        let option = document.createElement("option");
+        option.value = carrera.nombre;
+        option.textContent = carrera.nombre
+        select.appendChild(option);
+    }
+}
 
 // -------------------------
 //-------------------------- Corredores ----------------------
@@ -204,6 +216,7 @@ function actualizar() {
     actualizarPromedioInscriptos()
     actualizarCarrerasMasInscriptos()
     actualizarCarrerasSinInscriptos()
+    consultarInscriptos()
 }
 
 
@@ -287,35 +300,61 @@ function porcentajeCorredoresElite(){
 
 //----------------------------------------------------------------
 //------------------consulta de inscriptos -----------------------
-3
+function consultarInscriptos() {
+    let select = document.getElementById("tabla_inscriptos");
+    
+    let tabla = document.getElementById("tabla_inscriptos");
+    // Borra todas las filas menos la primera (encabezado)
+    while (tabla.rows.length > 1) {
+        tabla.deleteRow(1);
+    }
+    for (let inscriptos of sistema.listaInscripciones){
+        if(inscriptos.carrera.nombre == document.getElementById("inscripciones_carreras").value) {
+            let fila = select.insertRow();
+            let celda1 = fila.insertCell(0);
+            let celda2 = fila.insertCell(1);
+            let celda3 = fila.insertCell(2);
+            let celda4 = fila.insertCell(3);
+            let celda5 = fila.insertCell(4);
+
+            celda1.innerHTML = inscriptos.corredor.nombre;
+            celda2.innerHTML = inscriptos.corredor.edad;
+            celda3.innerHTML = inscriptos.corredor.cedula;
+            celda4.innerHTML = inscriptos.corredor.fichaMedica;
+            celda5.innerHTML = inscriptos.numeroInscripcion;
+        }
+}
+}
 // ----------- Mapa Uruguay con GeoChart -----------
+
 function dibujarMapaUruguay(datosDepartamentos) {
     google.charts.load('current', {
-        'packages':['geochart'],
-        // Solo Uruguay
-        'mapsApiKey': 'TU_API_KEY_SI_LA_PEDÍS' // Opcional, para más detalles
+        'packages':['geochart']
     });
-    google.charts.setOnLoadCallback(function() {
-        var data = google.visualization.arrayToDataTable([
-            ['Region', 'Valor'],
-            // Ejemplo: ['UY-CA', 10], // Canelones
-            // Llená esto con tus datos reales
-            ...datosDepartamentos
-        ]);
-
-        var options = {
-            region: 'UY', // Uruguay
-            displayMode: 'regions',
-            resolution: 'provinces',
-            colorAxis: {colors: ['#e0f3db', '#43a2ca']}
-        };
-
-        var chart = new google.visualization.GeoChart(document.getElementById('mapa_uruguay'));
-        chart.draw(data, options);
-    });
+    google.charts.setOnLoadCallback(callBackParaCharts(datosDepartamentos));
 }
+
+function callBackParaCharts(datosDepartamentos) {
+    var data = google.visualization.arrayToDataTable([
+        ['Region', 'Valor'],
+        // Ejemplo: ['UY-CA', 10], // Canelones
+        // Llená esto con tus datos reales
+        ...datosDepartamentos
+    ]);
+
+    var options = {
+        region: 'UY', // Uruguay
+        displayMode: 'regions',
+        resolution: 'provinces',
+        colorAxis: {colors: ['#e0f3db', '#43a2ca']}
+    };
+
+    var chart = new google.visualization.GeoChart(document.getElementById('mapa_uruguay'));
+    chart.draw(data, options);
+    
+}
+
 let datos = [
-    ['Region', 'Inscriptos'],
     ['UY-CA', 10], // Canelones
     ['UY-MO', 5],  // Montevideo
     ['UY-MA', 2],  // Maldonado

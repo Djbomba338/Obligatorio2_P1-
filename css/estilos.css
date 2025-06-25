@@ -55,5 +55,7 @@ button:focus{
 }
 
 #mapa_uruguay {
-	border-radius: 1px;
+	border-radius: 1rem;
+	width: 400px;
+	height: 600px;
 }
