@@ -38,7 +38,6 @@ class Sistema {
 
     //---------------------Corredor--------------------------
 
-
     agregarCorredor(corredor){
         this.listaCorredores.push(corredor)
     }
@@ -52,10 +51,10 @@ class Sistema {
     }
 
     validarCedula(cedula){
-        let esValida = false
+        let esValida = true
         for (let i = 0; i < this.listaCorredores.length && !esValida; i++){
             if(this.listaCorredores[i].cedula == cedula){
-                esValida = true
+                esValida = false
             } 
         }
         return esValida
@@ -149,7 +148,7 @@ class Carrera {
         this.fecha = fecha
         this.cuposMaximos = cuposMaximos 
         this.cuposUsados = 0
-        this.inscriptos = []
+        // this.inscriptos = []
     }
 
     hayCuposDisponibles(){

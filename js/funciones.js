@@ -94,7 +94,7 @@ function sacarDatosCorredores(evento){
     } else {
         tipoCorredor = "Deportista Común"
     }
-    if(!sistema.validarCedula(cedula)) {
+    if(sistema.validarCedula(cedula)) {
         let newArray =  new Corredor(newNombre , edad , cedula , fecha, tipoCorredor)
         sistema.agregarCorredor(newArray)
         document.getElementById("corredores_nombreCorredor").value = ""
@@ -328,22 +328,16 @@ function consultarInscriptos() {
 // ----------- Mapa Uruguay con GeoChart -----------
 
 function dibujarMapaUruguay(datosDepartamentos) {
-    google.charts.load('current', {
-        'packages':['geochart']
-    });
-    google.charts.setOnLoadCallback(callBackParaCharts(datosDepartamentos));
-}
+    google.charts.load('current', {'packages':['geochart']});
+    google.charts.setOnLoadCallback(function (datosDepartamentos) {
 
-function callBackParaCharts(datosDepartamentos) {
     var data = google.visualization.arrayToDataTable([
         ['Region', 'Valor'],
-        // Ejemplo: ['UY-CA', 10], // Canelones
-        // Llená esto con tus datos reales
         ...datosDepartamentos
     ]);
 
     var options = {
-        region: 'UY', // Uruguay
+        region: 'UY',
         displayMode: 'regions',
         resolution: 'provinces',
         colorAxis: {colors: ['#e0f3db', '#43a2ca']}
@@ -351,6 +345,11 @@ function callBackParaCharts(datosDepartamentos) {
 
     var chart = new google.visualization.GeoChart(document.getElementById('mapa_uruguay'));
     chart.draw(data, options);
+    
+});
+}
+
+function sacarDatosParaMapa() {
     
 }
 
