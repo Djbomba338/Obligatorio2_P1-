@@ -250,13 +250,13 @@ function actualizarPromedioInscriptos() {
 	let output_promedio_inscriptos = document.getElementById(
 		"output_promedio_inscriptos"
 	);
-	output_promedio_inscriptos.innerText = promedioInscriptosPorCarrera();
+	output_promedio_inscriptos.innerText = sistema.promedioInscriptosPorCarrera();
 }
 
 function actualizarCarrerasMasInscriptos() {
 	let lista = document.getElementById("lista_carreras_mas_inscriptos");
 	let html = "";
-	for (let carrera of carrerasConMasInscriptos()) {
+	for (let carrera of sistema.carrerasConMasInscriptos()) {
 		html += `<li>${carrera.nombre}</li>`;
 	}
 	lista.innerHTML = html;
@@ -265,7 +265,7 @@ function actualizarCarrerasMasInscriptos() {
 function actualizarCarrerasSinInscriptos() {
 	let lista = document.getElementById("lista_carreras_sin_inscriptos");
 	let html = "";
-	for (let carrera of carrerasSinInscriptos()) {
+	for (let carrera of sistema.carrerasSinInscriptos()) {
 		html += `<li>${carrera.nombre}</li>`;
 	}
 	lista.innerHTML = html;
@@ -276,55 +276,7 @@ function actualizarPorcentajeElite() {
 		"output_porcentaje_elite"
 	);
 
-	output_porcentaje_elite.innerHTML = porcentajeCorredoresElite();
-}
-
-//------------------------Funciones de Carreras-------------------------
-function promedioInscriptosPorCarrera() {
-	let totalInscriptosEnCarreras = 0;
-	for (let carrera of sistema.listaCarreras) {
-		totalInscriptosEnCarreras += carrera.cuposUsados;
-	}
-	totalInscriptosEnCarreras =
-		totalInscriptosEnCarreras / sistema.listaCarreras.length;
-	return totalInscriptosEnCarreras.toFixed(2);
-}
-
-function carrerasConMasInscriptos() {
-	let carrerasMasCuposUsados = [];
-	let maxCuposUsados = 0;
-	for (let carrera of sistema.listaCarreras) {
-		if (carrera.cuposUsados > maxCuposUsados) {
-			maxCuposUsados = carrera.cuposUsados;
-			carrerasMasCuposUsados = [];
-			carrerasMasCuposUsados.push(carrera);
-		} else if (carrera.cuposUsados == maxCuposUsados) {
-			carrerasMasCuposUsados.push(carrera);
-		}
-	}
-	return carrerasMasCuposUsados;
-}
-
-function carrerasSinInscriptos() {
-	let carrerasSinInscriptos = [];
-	for (let carrera of sistema.listaCarreras) {
-		if (carrera.cuposUsados === 0) {
-			carrerasSinInscriptos.push(carrera);
-		}
-	}
-	carrerasSinInscriptos.sort((a, b) => a.fecha - b.fecha);
-	return carrerasSinInscriptos;
-}
-//------------------------Funciones de Corredores-------------------------
-function porcentajeCorredoresElite() {
-	let totalCorredoresElite = 0;
-	let totalCorredores = sistema.listaCorredores.length;
-	for (let corredor of listaCorredores) {
-		if (corredor.tipo === "Deportista de élite") {
-			totalCorredoresElite += 1;
-		}
-	}
-	return (totalCorredoresElite / totalCorredores) * 100;
+	output_porcentaje_elite.innerHTML = sistema.porcentajeCorredoresElite();
 }
 
 //----------------------------------------------------------------

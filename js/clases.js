@@ -33,6 +33,43 @@ class Sistema {
 			}
 		}
 	}
+
+	promedioInscriptosPorCarrera() {
+		let totalInscriptosEnCarreras = 0;
+		for (let carrera of this.listaCarreras) {
+			totalInscriptosEnCarreras += carrera.cuposUsados;
+		}
+		return (totalInscriptosEnCarreras / sistema.listaCarreras.length).toFixed(
+			2
+		);
+	}
+
+	carrerasConMasInscriptos() {
+		let carrerasMasCuposUsados = [];
+		let maxCuposUsados = 0;
+		for (let carrera of this.listaCarreras) {
+			if (carrera.cuposUsados > maxCuposUsados) {
+				maxCuposUsados = carrera.cuposUsados;
+				carrerasMasCuposUsados = [];
+				carrerasMasCuposUsados.push(carrera);
+			} else if (carrera.cuposUsados == maxCuposUsados) {
+				carrerasMasCuposUsados.push(carrera);
+			}
+		}
+		return carrerasMasCuposUsados;
+	}
+
+	carrerasSinInscriptos() {
+		let carrerasSinInscriptos = [];
+		for (let carrera of this.listaCarreras) {
+			if (carrera.cuposUsados === 0) {
+				carrerasSinInscriptos.push(carrera);
+			}
+		}
+		carrerasSinInscriptos.sort((a, b) => a.fecha - b.fecha);
+		return carrerasSinInscriptos;
+	}
+
 	//----------------------------------
 
 	//---------------------Corredor--------------------------
@@ -63,6 +100,16 @@ class Sistema {
 		this.listaCorredores.sort((a, b) => a.nombre.localeCompare(b.nombre));
 	}
 
+	porcentajeCorredoresElite() {
+		let totalCorredoresElite = 0;
+		let totalCorredores = this.listaCorredores.length;
+		for (let corredor of listaCorredores) {
+			if (corredor.tipo === "Deportista de élite") {
+				totalCorredoresElite += 1;
+			}
+		}
+		return (totalCorredoresElite / totalCorredores) * 100;
+	}
 	//-------------------------------------
 
 	//-------------------Patrocinador-----------------
