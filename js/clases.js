@@ -100,7 +100,7 @@ class Sistema {
 	// ------------------------------------
 	//------------------------------Inscripciones------------------------
 
-	manejadorNuevaInscripcion(inscripcion) {
+	procesarInscripcion(inscripcion) {
 		let carrera = inscripcion.carrera;
 		let corredor = inscripcion.corredor;
 		if (
@@ -122,17 +122,14 @@ class Sistema {
 
 	//-------------------otros--------------------------
 
-	encontrarPatrocinadoresDeCarrera(carrera) {
+	encontrarPatrocinadoresDeCarrera(nombreCarrera) {
+		let patrocinadoresEncontrados = [];
 		for (let i = 0; i < sistema.listaPatrocinadores.length; i++) {
-			if (
-				sistema.listaPatrocinadores[i].carrera.includes(
-					carreraEncontrada.nombre
-				)
-			) {
-				patrocinadorEncontrado = sistema.listaPatrocinadores[i];
-				break;
+			if (sistema.listaPatrocinadores[i].carreras.includes(nombreCarrera)) {
+				patrocinadoresEncontrados.push(sistema.listaPatrocinadores[i]);
 			}
 		}
+		return patrocinadoresEncontrados;
 	}
 }
 
