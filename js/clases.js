@@ -49,7 +49,7 @@ class Sistema {
 		}
 	}
 
-	validarCedula(cedula) {
+	cedulaEsUnica(cedula) {
 		let esValida = true;
 		for (let i = 0; i < this.listaCorredores.length && esValida; i++) {
 			if (this.listaCorredores[i].cedula == cedula) {

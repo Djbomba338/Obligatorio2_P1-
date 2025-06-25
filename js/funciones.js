@@ -105,7 +105,7 @@ function sacarDatosCorredores(evento) {
 	} else {
 		tipoCorredor = "Deportista Común";
 	}
-	if (sistema.validarCedula(cedula)) {
+	if (sistema.cedulaEsUnica(cedula)) {
 		let newArray = new Corredor(newNombre, edad, cedula, fecha, tipoCorredor);
 		sistema.agregarCorredor(newArray);
 		document.getElementById("corredores_nombreCorredor").value = "";
