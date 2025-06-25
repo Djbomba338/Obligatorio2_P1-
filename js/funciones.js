@@ -343,6 +343,9 @@ function consultarInscriptos() {
 			document.getElementById("inscripciones_carreras").value
 		) {
 			let fila = select.insertRow();
+			if (inscriptos.corredor.tipo == "Deportista de élite") {
+				fila.style.backgroundColor = "red";
+			}
 			let celda1 = fila.insertCell(0);
 			let celda2 = fila.insertCell(1);
 			let celda3 = fila.insertCell(2);
