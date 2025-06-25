@@ -118,10 +118,6 @@ class Sistema {
 		this.listaInscripciones.push(inscripcion);
 	}
 
-	otorgarNumeroInscripcion() {
-		corredor.numeroInscripcion = this.listaCarreras.cuposUsados;
-	}
-
 	//----------------------------
 
 	//-------------------otros--------------------------
