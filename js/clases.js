@@ -194,6 +194,6 @@ class Patrocinador {
 		this.carreras = carreras;
 	}
 	agregarCarrera(carrera) {
-		this.carrera.push(carrera);
+		this.carreras.push(carrera);
 	}
 }
