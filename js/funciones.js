@@ -311,7 +311,25 @@ function consultarInscriptos() {
 			celda5.innerHTML = inscriptos.numeroInscripcion;
 		}
 	}
+	if (document.getElementById("ci_ordenarpor_nombre").checked) {
+		ordernarInscriptosPorNombre();
+	} else {
+		ordenarInscriptosPorNumeroCreciente();
+	}
 }
+function ordernarInscriptosPorNombre() {
+	for (let inscripcion of sistema.listaInscripciones) {
+			sistema.listaInscripciones.sort((a, b) =>
+			a.corredor.nombre.localeCompare(b.corredor.nombre)
+		);
+	}
+}
+function ordenarInscriptosPorNumeroCreciente() {
+	for (let inscripcion of sistema.listaInscripciones) {
+		sistema.listaInscripciones.sort((a, b) => a.numeroInscripcion - b.numeroInscripcion);
+	}
+}
+
 // ----------- Mapa Uruguay con GeoChart -----------
 
 function dibujarMapaUruguay(datosDepartamentos) {
