@@ -58,11 +58,10 @@ function actualizarSelectCarreras(selectId) {
 
 function sacarDatosCarrera(evento) {
 	evento.preventDefault();
+	let carreraForm = document.getElementById("carreras_form");
 	let newNombre = document.getElementById("carreras_nombre").value;
 	let newDepartamento = document.getElementById("carreras_departamento").value;
-	let newFecha = new Date(
-		document.getElementById("agregar_carrera_fecha").value
-	);
+	let newFecha = document.getElementById("agregar_carrera_fecha").value;
 	let newCupos = document.getElementById("agregar_carrera_cupo").value;
 
 	if (!sistema.existeCarrera(newNombre)) {
@@ -73,10 +72,8 @@ function sacarDatosCarrera(evento) {
 		option.value = newNombre;
 		option.textContent = newNombre;
 		select.appendChild(option);
-		document.getElementById("carreras_nombre").value = "";
-		document.getElementById("carreras_departamento").selectedIndex = 0;
-		document.getElementById("agregar_carrera_fecha").value = "";
-		document.getElementById("agregar_carrera_cupo").value = "30";
+
+		carreraForm.reset();
 		sistema.ordenarCarrerasPorNombre();
 		actualizarSelectCarreras("inscripciones_carreras");
 		actualizarSelectCarrerasInscripcion("consulta_inscriptos_carrera");
@@ -99,12 +96,11 @@ function actualizarSelectCarrerasInscripcion(selectId) {
 
 function sacarDatosCorredores(evento) {
 	evento.preventDefault();
+	let formCorredor = document.getElementById("corredores_form");
 	let newNombre = document.getElementById("corredores_nombreCorredor").value;
 	let cedula = document.getElementById("corredores_cedula").value;
 	let edad = document.getElementById("corredores_edad").value;
-	let fecha = new Date(
-		document.getElementById("corredores_fecha_vencimiento").value
-	);
+	let fecha = document.getElementById("corredores_fecha_vencimiento").value;
 	let tipoCorredor = "";
 	if (document.getElementById("corredores_tipo_corredor_elite").checked) {
 		tipoCorredor = "Deportista de élite";
@@ -112,18 +108,19 @@ function sacarDatosCorredores(evento) {
 		tipoCorredor = "Deportista Común";
 	}
 	if (sistema.cedulaEsUnica(cedula)) {
-		let newArray = new Corredor(newNombre, edad, cedula, fecha, tipoCorredor);
-		sistema.agregarCorredor(newArray);
-		document.getElementById("corredores_nombreCorredor").value = "";
-		document.getElementById("corredores_cedula").value = "";
-		document.getElementById("corredores_edad").value = "";
-		document.getElementById("corredores_fecha_vencimiento").value = "";
+		let nuevoCorredor = new Corredor(
+			newNombre,
+			edad,
+			cedula,
+			fecha,
+			tipoCorredor
+		);
+		sistema.agregarCorredor(nuevoCorredor);
+		formCorredor.reset();
 		sistema.ordenarCorredoresPorNombre();
 		actualizarSelectCorredor("inscripciones_corredores");
 	} else {
-		alert(
-			"Ingrese datos nuevos, ya existe un corredor con esa cédula o ficha médica"
-		);
+		alert("Ingrese datos nuevos, ya existe un corredor con esa cédula");
 	}
 }
 
@@ -144,6 +141,7 @@ function actualizarSelectCorredor(selectId) {
 
 function sacarDatosPatrocinador(evento) {
 	evento.preventDefault();
+	let formPatrocinador = document.getElementById("patrocinadores_form");
 	let newNombre = document.getElementById("patrocinadores_nombre").value;
 	let newRubro = document.getElementById("patrocinadores_rubro").value;
 	let select = document.getElementById("patrocinadores_carreras");
@@ -160,9 +158,7 @@ function sacarDatosPatrocinador(evento) {
 		sistema.agregarPatrocinador(newArray);
 	}
 
-	document.getElementById("patrocinadores_nombre").value = "";
-	document.getElementById("patrocinadores_rubro").selectedIndex = 0;
-	document.getElementById("patrocinadores_carreras").selectedIndex = 0;
+	formPatrocinador.reset();
 }
 
 // ---------------------------------------
@@ -360,25 +356,25 @@ function iniciarMapa(e) {
 }
 
 const codigoDepartamentoPorNum = [
-	"UY-TA", // tacuarembo
-	"UY-MO", // Montevideo
-	"UY-CA", // Canelones
-	"UY-MA", // Maldonado
-	"UY-RO", // Rocha
-	"UY-TT", // Treinta y Tres
-	"UY-CL", // Cerro Largo
-	"UY-RV", // Rivera
-	"UY-AR", // Artigas
-	"UY-SA", // Salto
-	"UY-PA", // Paysandú
-	"UY-RN", // Río Negro
-	"UY-SO", // Soriano
-	"UY-CO", // Colonia
-	"UY-SJ", // San José
-	"UY-FS", // Flores
-	"UY-FD", // Florida
-	"UY-LA", // Lavalleja
-	"UY-DU", // Durazno
+	["UY-TA", "Tacuarembo"],
+	["UY-MO", "Montevideo"],
+	["UY-CA", "Canelones"],
+	["UY-MA", "Maldonado"],
+	["UY-RO", "Rocha"],
+	["UY-TT", "Treinta y Tres"],
+	["UY-CL", "Cerro Largo"],
+	["UY-RV", "Rivera"],
+	["UY-AR", "Artigas"],
+	["UY-SA", "Salto"],
+	["UY-PA", "Paysandú"],
+	["UY-RN", "Río Negro"],
+	["UY-SO", "Soriano"],
+	["UY-CO", "Colonia"],
+	["UY-SJ", "San José"],
+	["UY-FS", "Flores"],
+	["UY-FD", "Florida"],
+	["UY-LA", "Lavalleja"],
+	["UY-DU", "Durazno"],
 ];
 
 function obtenerDatosMapa(modo) {
@@ -387,7 +383,13 @@ function obtenerDatosMapa(modo) {
 
 	//inicializar todos los datos con 0 y codigos
 	for (let i = 0; i < codigoDepartamentoPorNum.length; i++) {
-		datos.push([codigoDepartamentoPorNum[i], 0]);
+		datos.push([
+			{
+				v: codigoDepartamentoPorNum[i][0],
+				f: codigoDepartamentoPorNum[i][1],
+			},
+			0,
+		]);
 	}
 
 	if (modo == "carreras") {
@@ -413,7 +415,7 @@ function dibujarMapa(datosDepartamentos) {
 		region: "UY",
 		displayMode: "regions",
 		resolution: "provinces",
-		colorAxis: { colors: ["#c7e9c0", "#00441b"] },
+		colorAxis: { colors: ["#e8eefa", "#08306b"] },
 		tooltip: { isHtml: true },
 	};
 

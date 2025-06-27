@@ -66,7 +66,7 @@ class Sistema {
 				carrerasSinInscriptos.push(carrera);
 			}
 		}
-		carrerasSinInscriptos.sort((a, b) => a.fecha - b.fecha);
+		carrerasSinInscriptos.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
 		return carrerasSinInscriptos;
 	}
 
@@ -195,7 +195,7 @@ class Carrera {
 
 	validarFichaMedica(fichaMedica) {
 		let esValida = true;
-		if (this.fecha > fichaMedica) {
+		if (new Date(this.fecha) > new Date(fichaMedica)) {
 			esValida = false;
 		}
 		return esValida;
