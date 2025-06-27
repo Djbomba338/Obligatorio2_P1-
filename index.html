@@ -3,24 +3,33 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="UTF-8" >
+		<meta charset="UTF-8" />
 		<title>Obligatorio 2 - Juan Pablo Canedo y Franco Cardozo</title>
 		<!-- css -->
-		<link rel="stylesheet" href="css/estilos.css" >
+		<link rel="stylesheet" href="css/estilos.css" />
 		<!-- js -->
-		<script src="js/clases.js"></script>
-		<script src="js/funciones.js"></script>
+
 		<!-- Dependencia para el maopa (google charts) -->
-		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+		<script
+			type="text/javascript"
+			src="https://www.gstatic.com/charts/loader.js"
+		></script>
+
 		<!-- Dependencia para el pdf -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+		<script src="js/clases.js"></script>
+		<script src="js/funciones.js"></script>
 	</head>
 	<body>
 		<header>
 			<h1>Sitio de Corredores</h1>
-			<img src="./img/image.png" alt="Banner del sitio de corredores" width="250" >
+			<img
+				src="./img/image.png"
+				alt="Banner del sitio de corredores"
+				width="250"
+			/>
 		</header>
-		
+
 		<nav>
 			<button id="idDatos">Datos</button>
 			<button id="idEstadisticas">Estadisticas</button>
@@ -32,9 +41,10 @@
 				<h3>Carreras</h3>
 				<form action="#" id="carreras_form">
 					<label for="carreras_nombre">Nombre:</label>
-					<input type="text" id="carreras_nombre" required>
+					<input type="text" id="carreras_nombre" required />
 					<label for="carreras_departamento">Departamento:</label>
 					<select name="departamento" id="carreras_departamento" required>
+						<option value="0">Tacuarembó</option>
 						<option value="1">Montevideo</option>
 						<option value="2">Canelones</option>
 						<option value="3">Maldonado</option>
@@ -53,23 +63,39 @@
 						<option value="16">Florida</option>
 						<option value="17">Lavalleja</option>
 						<option value="18">Durazno</option>
-						<option value="19">Tacuarembó</option>
 					</select>
 					<label for="agregar_carrera_fecha">Fecha: </label>
-					<input required type="date" name="fecha" id="agregar_carrera_fecha">
+					<input required type="date" name="fecha" id="agregar_carrera_fecha" />
 					<label for="agregar_carrera_cupo">Cupo: </label>
-					<input type="number" name="cupo" id="agregar_carrera_cupo" value="30" min="1" max="1000" required>
-					<input type="submit" id="agregar_carrera" value="Agregar Carrera">
+					<input
+						type="number"
+						name="cupo"
+						id="agregar_carrera_cupo"
+						value="30"
+						min="1"
+						max="1000"
+						required
+					/>
+					<input type="submit" id="agregar_carrera" value="Agregar Carrera" />
 				</form>
 			</article>
 			<article id="Patrocinadores">
 				<h3>Patrocinadores</h3>
 				<form action="#" id="patrocinadores_form">
 					<label for="patrocinadores_nombre">Nombre:</label>
-					<input type="text" id="patrocinadores_nombre" name="nombre" required>
+					<input
+						type="text"
+						id="patrocinadores_nombre"
+						name="nombre"
+						required
+					/>
 
 					<label for="patrocinadores_rubro">Rubro:</label>
-					<select name="patrocinadores_rubro" id="patrocinadores_rubro" required>
+					<select
+						name="patrocinadores_rubro"
+						id="patrocinadores_rubro"
+						required
+					>
 						<option value="alimenticio">Alimenticio</option>
 						<option value="Banco">Banco</option>
 						<option value="Bebidas">Bebidas</option>
@@ -80,22 +106,45 @@
 					</select>
 
 					<label for="patrocinadores_carreras">Carreras: </label>
-					<select name="patrocinadores_carreras" id="patrocinadores_carreras" multiple required>
-			
-					</select>
+					<select
+						name="patrocinadores_carreras"
+						id="patrocinadores_carreras"
+						multiple
+						required
+					></select>
 
-					<input type="submit" id="agregar_patrocinador" value="Agregar/Actualizar Patrocinador">
+					<input
+						type="submit"
+						id="agregar_patrocinador"
+						value="Agregar/Actualizar Patrocinador"
+					/>
 				</form>
 			</article>
 			<article id="Corredores">
 				<h3>Corredores</h3>
 				<form action="#" id="corredores_form">
 					<label for="corredores_nombreCorredor">Nombre:</label>
-					<input type="text" name="corredores_nombreCorredor" id="corredores_nombreCorredor" required>
+					<input
+						type="text"
+						name="corredores_nombreCorredor"
+						id="corredores_nombreCorredor"
+						required
+					/>
 					<label for="corredores_edad">Edad:</label>
-					<input type="number" name="corredores_edad" id="corredores_edad" min="18" required>
+					<input
+						type="number"
+						name="corredores_edad"
+						id="corredores_edad"
+						min="18"
+						required
+					/>
 					<label for="corredores_cedula">Cedula:</label>
-					<input type="text" name="corredores_cedula" id="corredores_cedula" required>
+					<input
+						type="text"
+						name="corredores_cedula"
+						id="corredores_cedula"
+						required
+					/>
 
 					<label for="corredores_fecha_vencimiento"
 						>Fecha de vencimiento de ficha medica:
@@ -105,33 +154,32 @@
 						name="corredores_fecha_vencimiento"
 						id="corredores_fecha_vencimiento"
 						required
-					>
+					/>
 
 					<div class="radio_container">
-					<label>Tipo de corredor: </label>
-					<label for="corredores_tipo_corredor_elite"
-						>Deportista de élite</label
-					>
-					<input
-						type="radio"
-						name="corredores_tipo_corredor"
-						value="elite"
-						id="corredores_tipo_corredor_elite"
-					>
-					<label for="corredores_tipo_corredor_elite_comun"
-						>Deportista común</label
-					>
-					<input
-						type="radio"
-						name="corredores_tipo_corredor"
-						value="comun"
-						id="corredores_tipo_corredor_elite_comun"
-						checked
-					>
+						<label>Tipo de corredor: </label>
+						<label for="corredores_tipo_corredor_elite"
+							>Deportista de élite</label
+						>
+						<input
+							type="radio"
+							name="corredores_tipo_corredor"
+							value="elite"
+							id="corredores_tipo_corredor_elite"
+						/>
+						<label for="corredores_tipo_corredor_elite_comun"
+							>Deportista común</label
+						>
+						<input
+							type="radio"
+							name="corredores_tipo_corredor"
+							value="comun"
+							id="corredores_tipo_corredor_elite_comun"
+							checked
+						/>
 					</div>
-					
 
-					<input type="submit" id="agregar_corredor"value="Agregar Corredor">
+					<input type="submit" id="agregar_corredor" value="Agregar Corredor" />
 				</form>
 			</article>
 			<article id="inscripciones">
@@ -149,18 +197,19 @@
 						name="inscripciones_carreras"
 						required
 					></select>
-					<input type="submit" id="agregar_inscripcion" value="Inscribir">
+					<input type="submit" id="agregar_inscripcion" value="Inscribir" />
 				</form>
 			</article>
 		</section>
-
-
 
 		<section id="estadisticas">
 			<h2>Estadisticas</h2>
 			<article>
 				<h3>Datos generales</h3>
-				<p>Promedio de inscriptos por carrera: <span id="output_promedio_inscriptos">sin datos</span></p>
+				<p>
+					Promedio de inscriptos por carrera:
+					<span id="output_promedio_inscriptos">sin datos</span>
+				</p>
 				<p>Carrera/s con mas inscriptos</p>
 				<ul id="lista_carreras_mas_inscriptos">
 					<li>sin datos</li>
@@ -169,13 +218,19 @@
 				<ul id="lista_carreras_sin_inscriptos">
 					<li>sin datos</li>
 				</ul>
-				<p>Porcentaje de corredores de elite: <span id="output_porcentaje_elite">sin datos</span></p>
+				<p>
+					Porcentaje de corredores de elite:
+					<span id="output_porcentaje_elite">sin datos</span>
+				</p>
 			</article>
 			<article id="Consulta_Inscriptos">
 				<h3>Consulta Inscriptos</h3>
 				<form action="#">
 					<label for="consulta_inscriptos_carrera">Carrera: </label>
-					<select name="consulta_inscriptos_carrera" id="consulta_inscriptos_carrera"></select>
+					<select
+						name="consulta_inscriptos_carrera"
+						id="consulta_inscriptos_carrera"
+					></select>
 					<div class="radio_container">
 						<label>Ordenar por:</label>
 						<input
@@ -183,18 +238,18 @@
 							id="ci_ordenarpor_nombre"
 							name="ci_ordenarpor"
 							value="nombre"
-						>
+						/>
 						<label for="ci_ordenarpor_nombre">Nombre: </label>
 						<input
 							type="radio"
 							id="ci_ordenarpor_numero"
 							name="ci_ordenarpor"
 							value="numero"
-						>
+						/>
 						<label for="ci_ordenarpor_numero">Número: </label>
 					</div>
 				</form>
-				<br >
+				<br />
 				<table id="tabla_inscriptos">
 					<caption>
 						Inscriptos
@@ -211,7 +266,7 @@
 			<article id="visualizar_mapa">
 				<h3>Visualizar Mapa:</h3>
 				<div id="mapa_uruguay"></div>
-				
+
 				<form action="#">
 					<div class="radio_container">
 						<input
@@ -220,7 +275,7 @@
 							name="visualizar_mapa"
 							id="visualizar_mapa_carreras"
 							checked
-						>
+						/>
 						<label for="visualizar_mapa_carreras">Por Carreras</label>
 
 						<input
@@ -228,7 +283,7 @@
 							value="inscripciones"
 							id="visualizar_mapa_inscripciones"
 							name="visualizar_mapa"
-						>
+						/>
 						<label for="visualizar_mapa_inscripciones">Por Inscripciones</label>
 					</div>
 				</form>
@@ -236,8 +291,22 @@
 		</section>
 		<footer>
 			<p>Programación 1 - Obligatorio 1er Semestre 2025 - Autores:</p>
-			<p>Grupo M1E - Juan Pablo Canedo (Número 349963) - <a target="_blank" href="https://www.linkedin.com/in/juan-pablo-canedo-249768367/">Link</a></p>
-			<p>Grupo M1E - Franco Cardozo (Número 345912) - <a target="_blank" href="https://www.linkedin.com/in/franco-cardozo-mato-598382357/">Link</a></p>
+			<p>
+				Grupo M1E - Juan Pablo Canedo (Número 349963) -
+				<a
+					target="_blank"
+					href="https://www.linkedin.com/in/juan-pablo-canedo-249768367/"
+					>Link</a
+				>
+			</p>
+			<p>
+				Grupo M1E - Franco Cardozo (Número 345912) -
+				<a
+					target="_blank"
+					href="https://www.linkedin.com/in/franco-cardozo-mato-598382357/"
+					>Link</a
+				>
+			</p>
 		</footer>
 	</body>
 </html>

@@ -171,9 +171,9 @@ class Sistema {
 
 	encontrarPatrocinadoresDeCarrera(nombreCarrera) {
 		let patrocinadoresEncontrados = [];
-		for (let i = 0; i < sistema.listaPatrocinadores.length; i++) {
-			if (sistema.listaPatrocinadores[i].carreras.includes(nombreCarrera)) {
-				patrocinadoresEncontrados.push(sistema.listaPatrocinadores[i]);
+		for (let i = 0; i < this.listaPatrocinadores.length; i++) {
+			if (this.listaPatrocinadores[i].carreras.includes(nombreCarrera)) {
+				patrocinadoresEncontrados.push(this.listaPatrocinadores[i]);
 			}
 		}
 		return patrocinadoresEncontrados;
@@ -187,7 +187,6 @@ class Carrera {
 		this.fecha = fecha;
 		this.cuposMaximos = cuposMaximos;
 		this.cuposUsados = 0;
-		// this.inscriptos = []
 	}
 
 	hayCuposDisponibles() {
@@ -204,7 +203,7 @@ class Carrera {
 }
 
 class Corredor {
-	constructor(nombre, edad, cedula, fichaMedica, tipo, numeroInscripcion = []) {
+	constructor(nombre, edad, cedula, fichaMedica, tipo) {
 		this.nombre = nombre;
 		this.edad = edad;
 		this.cedula = cedula;

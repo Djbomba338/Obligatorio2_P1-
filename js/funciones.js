@@ -21,6 +21,12 @@ function inicio() {
 	document
 		.getElementById("ci_ordenarpor_nombre")
 		.addEventListener("submit", consultarInscriptos);
+	document
+		.getElementById("visualizar_mapa_carreras")
+		.addEventListener("click", iniciarMapa);
+	document
+		.getElementById("visualizar_mapa_inscripciones")
+		.addEventListener("click", iniciarMapa);
 }
 
 // ------------------Intefaz-------------------
@@ -319,63 +325,101 @@ function consultarInscriptos() {
 }
 function ordernarInscriptosPorNombre() {
 	for (let inscripcion of sistema.listaInscripciones) {
-			sistema.listaInscripciones.sort((a, b) =>
+		sistema.listaInscripciones.sort((a, b) =>
 			a.corredor.nombre.localeCompare(b.corredor.nombre)
 		);
 	}
 }
 function ordenarInscriptosPorNumeroCreciente() {
 	for (let inscripcion of sistema.listaInscripciones) {
-		sistema.listaInscripciones.sort((a, b) => a.numeroInscripcion - b.numeroInscripcion);
+		sistema.listaInscripciones.sort(
+			(a, b) => a.numeroInscripcion - b.numeroInscripcion
+		);
 	}
 }
 
 // ----------- Mapa Uruguay con GeoChart -----------
 
-function dibujarMapaUruguay(datosDepartamentos) {
-	google.charts.load("current", { packages: ["geochart"] });
-	google.charts.setOnLoadCallback(function (datosDepartamentos) {
-		var data = google.visualization.arrayToDataTable([
-			["Region", "Valor"],
-			...datosDepartamentos,
-		]);
+google.charts.load("current", {
+	packages: ["geochart"],
+	language: "es",
+});
 
-		var options = {
-			region: "UY",
-			displayMode: "regions",
-			resolution: "provinces",
-			colorAxis: { colors: ["#e0f3db", "#43a2ca"] },
-		};
+google.charts.setOnLoadCallback(iniciarMapa);
 
-		var chart = new google.visualization.GeoChart(
-			document.getElementById("mapa_uruguay")
-		);
-		chart.draw(data, options);
-	});
+function iniciarMapa(e) {
+	let modo;
+	if (e) {
+		modo = e.target.value;
+	} else {
+		modo = "carreras";
+	}
+	let datos = obtenerDatosMapa(modo);
+
+	dibujarMapa(datos);
 }
 
-function sacarDatosParaMapa() {}
-
-let datos = [
-	["UY-CA", 10], // Canelones
-	["UY-MO", 5], // Montevideo
-	["UY-MA", 2], // Maldonado
-	["UY-RO", 3], // Rocha
-	["UY-PA", 4], // Paysandú
-	["UY-SJ", 6], // San José
-	["UY-TA", 1], // Tacuarembó
-	["UY-FS", 8], // Florida
-	["UY-CO", 7], // Colonia
-	["UY-CA", 9], // Canelones
-	["UY-AR", 2], // Artigas
-	["UY-CA", 3], // Cerro Largo
-	["UY-PA", 4], // Paysandú
-	["UY-SO", 5], // Soriano
-	["UY-TA", 6], // Tacuarembó
-	["UY-RO", 7], // Rivera
-	["UY-FS", 8], // Flores
-	["UY-LA", 9], // Lavalleja
-	["UY-MA", 10], // Maldonado
-	// ...otros departamentos
+const codigoDepartamentoPorNum = [
+	"UY-TA", // tacuarembo
+	"UY-MO", // Montevideo
+	"UY-CA", // Canelones
+	"UY-MA", // Maldonado
+	"UY-RO", // Rocha
+	"UY-TT", // Treinta y Tres
+	"UY-CL", // Cerro Largo
+	"UY-RV", // Rivera
+	"UY-AR", // Artigas
+	"UY-SA", // Salto
+	"UY-PA", // Paysandú
+	"UY-RN", // Río Negro
+	"UY-SO", // Soriano
+	"UY-CO", // Colonia
+	"UY-SJ", // San José
+	"UY-FS", // Flores
+	"UY-FD", // Florida
+	"UY-LA", // Lavalleja
+	"UY-DU", // Durazno
 ];
-dibujarMapaUruguay(datos);
+
+function obtenerDatosMapa(modo) {
+	let datos = [];
+	const carreras = sistema.listaCarreras;
+
+	//inicializar todos los datos con 0 y codigos
+	for (let i = 0; i < codigoDepartamentoPorNum.length; i++) {
+		datos.push([codigoDepartamentoPorNum[i], 0]);
+	}
+
+	if (modo == "carreras") {
+		for (let i = 0; i < carreras.length; i++) {
+			datos[carreras[i].departamento][1]++;
+		}
+	} else if (modo == "inscripciones") {
+		for (let i = 0; i < carreras.length; i++) {
+			datos[carreras[i].departamento][1] += carreras[i].cuposUsados;
+		}
+	}
+
+	return datos;
+}
+
+function dibujarMapa(datosDepartamentos) {
+	const data = google.visualization.arrayToDataTable([
+		["Departamento", "Valor"],
+		...datosDepartamentos,
+	]);
+
+	const options = {
+		region: "UY",
+		displayMode: "regions",
+		resolution: "provinces",
+		colorAxis: { colors: ["#c7e9c0", "#00441b"] },
+		tooltip: { isHtml: true },
+	};
+
+	const chart = new google.visualization.GeoChart(
+		document.getElementById("mapa_uruguay")
+	);
+
+	chart.draw(data, options);
+}
