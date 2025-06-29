@@ -1,7 +1,9 @@
 window.addEventListener("load", inicio);
-let sistema = new Sistema();
-let corredor = new Corredor();
-let patrocinador = new Patrocinador();
+const sistema = new Sistema();
+
+let corredor = new Corredor(); // a revisar
+let patrocinador = new Patrocinador(); // a revisar
+
 function inicio() {
 	document.getElementById("idDatos").addEventListener("click", mostrar);
 	document.getElementById("idEstadisticas").addEventListener("click", mostrar);
@@ -41,8 +43,8 @@ function mostrar(evento) {
 	}
 }
 
-function actualizarSelectCarreras(selectId) {
-	let select = document.getElementById(selectId);
+function actualizarSelectConCarreras(selectId) {
+	const select = document.getElementById(selectId);
 	select.innerHTML = "";
 	for (let carrera of sistema.listaCarreras) {
 		let option = document.createElement("option");
@@ -58,37 +60,27 @@ function actualizarSelectCarreras(selectId) {
 
 function sacarDatosCarrera(evento) {
 	evento.preventDefault();
+
+	// obtenemos datos y elementos del formulario
 	let carreraForm = document.getElementById("carreras_form");
 	let newNombre = document.getElementById("carreras_nombre").value;
 	let newDepartamento = document.getElementById("carreras_departamento").value;
 	let newFecha = document.getElementById("agregar_carrera_fecha").value;
 	let newCupos = document.getElementById("agregar_carrera_cupo").value;
-
+	//--------------------------------
 	if (!sistema.existeCarrera(newNombre)) {
-		let newArray = new Carrera(newNombre, newDepartamento, newFecha, newCupos);
-		sistema.agregarCarrera(newArray);
-		let select = document.getElementById("patrocinadores_carreras");
-		let option = document.createElement("option");
-		option.value = newNombre;
-		option.textContent = newNombre;
-		select.appendChild(option);
-
-		carreraForm.reset();
-		sistema.ordenarCarrerasPorNombre();
-		actualizarSelectCarreras("inscripciones_carreras");
-		actualizarSelectCarrerasInscripcion("consulta_inscriptos_carrera");
+		let NuevaCarrera = new Carrera(
+			newNombre,
+			newDepartamento,
+			newFecha,
+			newCupos
+		);
+		sistema.agregarCarrera(NuevaCarrera);
+	} else {
+		alert("Ya existe otra carrea con ese nombre");
 	}
-}
-
-function actualizarSelectCarrerasInscripcion(selectId) {
-	let select = document.getElementById(selectId);
-	select.innerHTML = "";
-	for (let carrera of sistema.listaCarreras) {
-		let option = document.createElement("option");
-		option.value = carrera.nombre;
-		option.textContent = carrera.nombre;
-		select.appendChild(option);
-	}
+	carreraForm.reset();
+	actualizar();
 }
 
 // -------------------------
@@ -96,6 +88,8 @@ function actualizarSelectCarrerasInscripcion(selectId) {
 
 function sacarDatosCorredores(evento) {
 	evento.preventDefault();
+
+	// obtenemos datos y elementos del formulario
 	let formCorredor = document.getElementById("corredores_form");
 	let newNombre = document.getElementById("corredores_nombreCorredor").value;
 	let cedula = document.getElementById("corredores_cedula").value;
@@ -107,6 +101,8 @@ function sacarDatosCorredores(evento) {
 	} else {
 		tipoCorredor = "Deportista Común";
 	}
+	//--------------
+
 	if (sistema.cedulaEsUnica(cedula)) {
 		let nuevoCorredor = new Corredor(
 			newNombre,
@@ -242,10 +238,17 @@ function descargarInscripcionPDF(info) {
 //-----------------Interfaz-----------------------------
 
 function actualizar() {
+	// actualizar sistema
+	sistema.ordenarCarrerasPorNombre();
+
+	// recalcular cosas y actualizar ui
 	actualizarPromedioInscriptos();
 	actualizarCarrerasMasInscriptos();
 	actualizarCarrerasSinInscriptos();
 	consultarInscriptos();
+	actualizarSelectConCarreras("patrocinadores_carreras");
+	actualizarSelectConCarreras("inscripciones_carreras");
+	actualizarSelectConCarreras("consulta_inscriptos_carrera");
 }
 
 function actualizarPromedioInscriptos() {
@@ -285,7 +288,6 @@ function actualizarPorcentajeElite() {
 //------------------consulta de inscriptos -----------------------
 function consultarInscriptos() {
 	let select = document.getElementById("tabla_inscriptos");
-
 	let tabla = document.getElementById("tabla_inscriptos");
 	// Borra todas las filas menos la primera (encabezado)
 	while (tabla.rows.length > 1) {
