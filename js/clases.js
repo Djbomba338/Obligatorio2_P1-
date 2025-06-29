@@ -123,10 +123,11 @@ class Sistema {
 		return existe;
 	}
 
-	actualizarRubroPatrocinador(nom, rubro) {
+	actualizarDatosPatrocinador(nom, rubro, carreras) {
 		let patrocinador = this.encontrarPatrocinador(nom);
 		if (patrocinador) {
 			patrocinador.rubro = rubro;
+			patrocinador.carreras = carreras;
 			return true;
 		}
 		return false;

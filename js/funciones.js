@@ -149,7 +149,7 @@ function sacarDatosPatrocinador(evento) {
 	}
 	//----------
 	if (sistema.existePatrocinador(nombre)) {
-		sistema.actualizarRubroPatrocinador(nombre, rubro);
+		sistema.actualizarDatosPatrocinador(nombre, rubro, carrerasQuePatrocina);
 	} else {
 		let nuevoPatrocinador = new Patrocinador(
 			nombre,
@@ -180,16 +180,6 @@ function sacarDatosInscripcion(evento) {
 		carreraEncontrada.nombre
 	);
 	//----------------
-
-	// let nombresPatrocinadores = [];
-	// let rubrosPatrocinadores = [];
-
-	// if (patrocinadoresEncontrados.length > 0) {
-	// 	for (let i = 0; i < patrocinadoresEncontrados.length; i++) {
-	// 		nombresPatrocinadores.push(patrocinadoresEncontrados[i].nombre);
-	// 		rubrosPatrocinadores.push(patrocinadoresEncontrados[i].rubro);
-	// 	}
-	// }
 	if (
 		carreraEncontrada.hayCuposDisponibles() &&
 		carreraEncontrada.validarFichaMedica(corredorEncontrado.fichaMedica)
