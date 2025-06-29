@@ -6,31 +6,15 @@ const sistema = new Sistema();
 function inicio() {
 	document.getElementById("idDatos").addEventListener("click", mostrar);
 	document.getElementById("idEstadisticas").addEventListener("click", mostrar);
-
-	document
-		.getElementById("carreras_form")
-		.addEventListener("submit", sacarDatosCarrera);
-	document
-		.getElementById("patrocinadores_form")
-		.addEventListener("submit", sacarDatosPatrocinador);
-	document
-		.getElementById("corredores_form")
-		.addEventListener("submit", sacarDatosCorredores);
-	document
-		.getElementById("inscripciones_form")
-		.addEventListener("submit", sacarDatosInscripcion);
-	document
-		.getElementById("ci_ordenarpor_nombre")
-		.addEventListener("click", consultarInscriptos);
-	document
-		.getElementById("ci_ordenarpor_numero")
-		.addEventListener("click", consultarInscriptos);
-	document
-		.getElementById("visualizar_mapa_carreras")
-		.addEventListener("click", iniciarMapa);
-	document
-		.getElementById("visualizar_mapa_inscripciones")
-		.addEventListener("click", iniciarMapa);
+	document.getElementById("carreras_form").addEventListener("submit", sacarDatosCarrera);
+	document.getElementById("patrocinadores_form").addEventListener("submit", sacarDatosPatrocinador);
+	document.getElementById("corredores_form").addEventListener("submit", sacarDatosCorredores);
+	document.getElementById("inscripciones_form").addEventListener("submit", sacarDatosInscripcion);
+	document.getElementById("ci_ordenarpor_nombre").addEventListener("click", consultarInscriptos);
+	document.getElementById("ci_ordenarpor_numero").addEventListener("click", consultarInscriptos);
+	document.getElementById("consulta_inscriptos_carrera").addEventListener("change", consultarInscriptos);
+	document.getElementById("visualizar_mapa_carreras").addEventListener("click", iniciarMapa);
+	document.getElementById("visualizar_mapa_inscripciones").addEventListener("click", iniciarMapa);
 }
 
 // ------------------Intefaz-------------------
@@ -309,18 +293,25 @@ function actualizarPorcentajeElite() {
 //----------------------------------------------------------------
 //------------------consulta de inscriptos -----------------------
 function consultarInscriptos() {
-	let select = document.getElementById("tabla_inscriptos");
+	let select = document.getElementById("consulta_inscriptos_carrera");
 	let tabla = document.getElementById("tabla_inscriptos");
 	// Borra todas las filas menos la primera (encabezado)
 	while (tabla.rows.length > 1) {
 		tabla.deleteRow(1);
 	}
+
+	// ordena a los inscriptos antes de buscarlos (deberia hacerse localmente pero fue)
+	if (document.getElementById("ci_ordenarpor_nombre").checked) {
+		sistema.ordenarInscriptosPorNombre();
+	} else {
+		sistema.ordenarInscriptosPorNumeroCreciente();
+	}
+
 	for (let inscriptos of sistema.listaInscripciones) {
 		if (
-			inscriptos.carrera.nombre ==
-			document.getElementById("consulta_inscriptos_carrera").value
+			inscriptos.carrera.nombre == select.value
 		) {
-			let fila = select.insertRow();
+			let fila = tabla.insertRow();
 			if (inscriptos.corredor.tipo == "Deportista de élite") {
 				fila.style.backgroundColor = "red";
 			}
@@ -336,11 +327,6 @@ function consultarInscriptos() {
 			celda4.innerHTML = inscriptos.corredor.fichaMedica;
 			celda5.innerHTML = inscriptos.numeroInscripcion;
 		}
-	}
-	if (document.getElementById("ci_ordenarpor_nombre").checked) {
-		sistema.ordenarInscriptosPorNombre();
-	} else {
-		sistema.ordenarInscriptosPorNumeroCreciente();
 	}
 }
 
