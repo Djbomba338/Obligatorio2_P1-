@@ -1,3 +1,5 @@
+// Juan Pablo Canedo(349963) y Franco Cardozo(456912)
+
 window.addEventListener("load", inicio);
 const sistema = new Sistema();
 
@@ -22,7 +24,7 @@ function inicio() {
 		.addEventListener("submit", sacarDatosInscripcion);
 	document
 		.getElementById("ci_ordenarpor_nombre")
-		.addEventListener("submit", consultarInscriptos);
+		.addEventListener("click", consultarInscriptos);
 	document
 		.getElementById("visualizar_mapa_carreras")
 		.addEventListener("click", iniciarMapa);
@@ -182,7 +184,11 @@ function sacarDatosInscripcion(evento) {
 	//----------------
 	if (
 		carreraEncontrada.hayCuposDisponibles() &&
-		carreraEncontrada.validarFichaMedica(corredorEncontrado.fichaMedica)
+		carreraEncontrada.validarFichaMedica(corredorEncontrado.fichaMedica) &&
+		!sistema.corredorYaEstaInscripto(
+			corredorEncontrado.nombre,
+			carreraEncontrada.nombre
+		)
 	) {
 		const numeroIns = carreraEncontrada.cuposUsados + 1;
 		const inscripcion = new Inscripcion(
@@ -200,7 +206,7 @@ function sacarDatosInscripcion(evento) {
 			corredorEncontrado.nombre +
 			", " +
 			corredorEncontrado.edad +
-			"," +
+			", " +
 			"CI: " +
 			corredorEncontrado.cedula +
 			", " +
@@ -226,7 +232,7 @@ function sacarDatosInscripcion(evento) {
 		descargarInscripcionPDF(info);
 	} else {
 		alert(
-			"No es posible agregar Inscripcion (No hay cupos disponibles o La ficha medica vence antes de la fecha de la carrera)"
+			"No es posible agregar Inscripcion (No hay cupos disponibles o La ficha medica vence antes de la fecha de la carrera o el corredor ya esta inscripto)"
 		);
 	}
 }
@@ -245,8 +251,6 @@ function descargarInscripcionPDF(info) {
 
 // ------------------------------------------------------------------
 
-//-------------------------Estadisticas-------------------------
-
 //-----------------Interfaz-----------------------------
 
 function actualizar() {
@@ -258,11 +262,14 @@ function actualizar() {
 	actualizarPromedioInscriptos();
 	actualizarCarrerasMasInscriptos();
 	actualizarCarrerasSinInscriptos();
+	actualizarPorcentajeElite();
 	consultarInscriptos();
 	actualizarSelectConCarreras("patrocinadores_carreras");
 	actualizarSelectConCarreras("inscripciones_carreras");
 	actualizarSelectConCarreras("consulta_inscriptos_carrera");
 	actualizarSelectConCorredores("inscripciones_corredores");
+
+	iniciarMapa();
 }
 
 function actualizarPromedioInscriptos() {
@@ -310,7 +317,7 @@ function consultarInscriptos() {
 	for (let inscriptos of sistema.listaInscripciones) {
 		if (
 			inscriptos.carrera.nombre ==
-			document.getElementById("inscripciones_carreras").value
+			document.getElementById("consulta_inscriptos_carrera").value
 		) {
 			let fila = select.insertRow();
 			if (inscriptos.corredor.tipo == "Deportista de élite") {
@@ -395,8 +402,7 @@ const codigoDepartamentoPorNum = [
 ];
 
 function obtenerDatosMapa(modo) {
-	let datos = [];
-	const carreras = sistema.listaCarreras;
+	let datos = [["Departamento", "Valor"]];
 
 	//inicializar todos los datos con 0 y codigos
 	for (let i = 1; i < codigoDepartamentoPorNum.length; i++) {
@@ -408,14 +414,13 @@ function obtenerDatosMapa(modo) {
 			0,
 		]);
 	}
-
 	if (modo == "carreras") {
-		for (let i = 0; i < carreras.length; i++) {
-			datos[carreras[i].departamento][1]++;
+		for (let carrera of sistema.listaCarreras) {
+			datos[carrera.departamento][1]++;
 		}
 	} else if (modo == "inscripciones") {
-		for (let i = 0; i < carreras.length; i++) {
-			datos[carreras[i].departamento][1] += carreras[i].cuposUsados;
+		for (let carrera of sistema.listaCarreras) {
+			datos[carrera.departamento][1] += carrera.cuposUsados;
 		}
 	}
 
@@ -423,10 +428,7 @@ function obtenerDatosMapa(modo) {
 }
 
 function dibujarMapa(datosDepartamentos) {
-	const data = google.visualization.arrayToDataTable([
-		["Departamento", "Valor"],
-		...datosDepartamentos,
-	]);
+	const data = google.visualization.arrayToDataTable([...datosDepartamentos]);
 
 	const options = {
 		region: "UY",

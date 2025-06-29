@@ -1,3 +1,4 @@
+// Juan Pablo Canedo(349963) y Franco Cardozo(456912)
 class Sistema {
 	constructor() {
 		this.listaCarreras = [];
@@ -39,9 +40,7 @@ class Sistema {
 		for (let carrera of this.listaCarreras) {
 			totalInscriptosEnCarreras += carrera.cuposUsados;
 		}
-		return (totalInscriptosEnCarreras / sistema.listaCarreras.length).toFixed(
-			2
-		);
+		return (totalInscriptosEnCarreras / this.listaCarreras.length).toFixed(2);
 	}
 
 	carrerasConMasInscriptos() {
@@ -103,7 +102,7 @@ class Sistema {
 	porcentajeCorredoresElite() {
 		let totalCorredoresElite = 0;
 		let totalCorredores = this.listaCorredores.length;
-		for (let corredor of listaCorredores) {
+		for (let corredor of this.listaCorredores) {
 			if (corredor.tipo === "Deportista de élite") {
 				totalCorredoresElite += 1;
 			}
@@ -123,14 +122,10 @@ class Sistema {
 		return existe;
 	}
 
-	actualizarDatosPatrocinador(nom, rubro, carreras) {
-		let patrocinador = this.encontrarPatrocinador(nom);
-		if (patrocinador) {
-			patrocinador.rubro = rubro;
-			patrocinador.carreras = carreras;
-			return true;
-		}
-		return false;
+	actualizarDatosPatrocinador(nombre, rubro, carreras) {
+		let patrocinador = this.encontrarPatrocinador(nombre);
+		patrocinador.rubro = rubro;
+		patrocinador.carreras = carreras;
 	}
 
 	agregarPatrocinador(patrocinador) {
@@ -138,9 +133,9 @@ class Sistema {
 	}
 
 	encontrarPatrocinador(nombre) {
-		for (let i = 0; i < this.listaPatrocinadores.length; i++) {
-			if (this.listaPatrocinadores[i].nombre == nombre) {
-				return this.listaPatrocinadores[i];
+		for (let patrocinador of this.listaPatrocinadores) {
+			if (patrocinador.nombre == nombre) {
+				return patrocinador;
 			}
 		}
 	}
@@ -150,6 +145,19 @@ class Sistema {
 
 	agregarInscripcion(inscripcion) {
 		this.listaInscripciones.push(inscripcion);
+	}
+
+	corredorYaEstaInscripto(nomCorredor, nomCarrera) {
+		let yaEstaInscripto = false;
+		for (let inscripcion of this.listaInscripciones) {
+			if (
+				inscripcion.corredor.nombre == nomCorredor &&
+				inscripcion.carrera.nombre == nomCarrera
+			) {
+				yaEstaInscripto = true;
+			}
+		}
+		return yaEstaInscripto;
 	}
 
 	//----------------------------
