@@ -375,7 +375,7 @@ const codigoDepartamentoPorNum = [
 ];
 
 function obtenerDatosMapa(modo) {
-	let datos = [["Departamento", "Valor"]];
+	let datos = [["Departamento", "Cantidad"]];
 
 	//inicializar todos los datos con 0 y codigos
 	for (let i = 1; i < codigoDepartamentoPorNum.length; i++) {
