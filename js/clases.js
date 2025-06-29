@@ -27,10 +27,10 @@ class Sistema {
 		this.listaCarreras.sort((a, b) => a.nombre.localeCompare(b.nombre));
 	}
 
-	encontrarCarrera(numbreCarrera) {
-		for (let i = 0; i < sistema.listaCarreras.length; i++) {
-			if (sistema.listaCarreras[i].nombre == numbreCarrera) {
-				return sistema.listaCarreras[i];
+	encontrarCarrera(nombreCarrera) {
+		for (let carrera of this.listaCarreras) {
+			if (carrera.nombre == nombreCarrera) {
+				return carrera;
 			}
 		}
 	}
@@ -124,8 +124,10 @@ class Sistema {
 
 	actualizarDatosPatrocinador(nombre, rubro, carreras) {
 		let patrocinador = this.encontrarPatrocinador(nombre);
-		patrocinador.rubro = rubro;
-		patrocinador.carreras = carreras;
+		if (patrocinador) {
+			patrocinador.rubro = rubro;
+			patrocinador.carreras = carreras;
+		}
 	}
 
 	agregarPatrocinador(patrocinador) {
@@ -147,17 +149,28 @@ class Sistema {
 		this.listaInscripciones.push(inscripcion);
 	}
 
-	corredorYaEstaInscripto(nomCorredor, nomCarrera) {
+	corredorYaEstaInscripto(nombreCorredor, nombreCarrera) {
 		let yaEstaInscripto = false;
 		for (let inscripcion of this.listaInscripciones) {
 			if (
-				inscripcion.corredor.nombre == nomCorredor &&
-				inscripcion.carrera.nombre == nomCarrera
+				inscripcion.corredor.nombre == nombreCorredor &&
+				inscripcion.carrera.nombre == nombreCarrera
 			) {
 				yaEstaInscripto = true;
 			}
 		}
 		return yaEstaInscripto;
+	}
+
+	ordenarInscriptosPorNombre() {
+		this.listaInscripciones.sort((a, b) =>
+			a.corredor.nombre.localeCompare(b.corredor.nombre)
+		);
+	}
+	ordenarInscriptosPorNumeroCreciente() {
+		this.listaInscripciones.sort(
+			(a, b) => a.numeroInscripcion - b.numeroInscripcion
+		);
 	}
 
 	//----------------------------

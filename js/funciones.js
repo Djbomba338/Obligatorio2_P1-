@@ -3,9 +3,6 @@
 window.addEventListener("load", inicio);
 const sistema = new Sistema();
 
-let corredor = new Corredor(); // a revisar
-let patrocinador = new Patrocinador(); // a revisar
-
 function inicio() {
 	document.getElementById("idDatos").addEventListener("click", mostrar);
 	document.getElementById("idEstadisticas").addEventListener("click", mostrar);
@@ -24,6 +21,9 @@ function inicio() {
 		.addEventListener("submit", sacarDatosInscripcion);
 	document
 		.getElementById("ci_ordenarpor_nombre")
+		.addEventListener("click", consultarInscriptos);
+	document
+		.getElementById("ci_ordenarpor_numero")
 		.addEventListener("click", consultarInscriptos);
 	document
 		.getElementById("visualizar_mapa_carreras")
@@ -90,7 +90,7 @@ function sacarDatosCarrera(evento) {
 		);
 		sistema.agregarCarrera(NuevaCarrera);
 	} else {
-		alert("Ya existe otra carrea con ese nombre");
+		alert("Ya existe otra carrera con ese nombre");
 	}
 	carreraForm.reset();
 	actualizar();
@@ -210,7 +210,7 @@ function sacarDatosInscripcion(evento) {
 			"CI: " +
 			corredorEncontrado.cedula +
 			", " +
-			"Ficha medica: " +
+			"Ficha médica: " +
 			corredorEncontrado.fichaMedica +
 			"\n" +
 			corredorEncontrado.tipo +
@@ -230,9 +230,10 @@ function sacarDatosInscripcion(evento) {
 
 		alert(info);
 		descargarInscripcionPDF(info);
+		actualizar();
 	} else {
 		alert(
-			"No es posible agregar Inscripcion (No hay cupos disponibles o La ficha medica vence antes de la fecha de la carrera o el corredor ya esta inscripto)"
+			"No es posible agregar Inscripcion (No hay cupos disponibles o La ficha medica vence antes de la fecha de la carrera o el corredor ya está inscripto)"
 		);
 	}
 }
@@ -337,23 +338,9 @@ function consultarInscriptos() {
 		}
 	}
 	if (document.getElementById("ci_ordenarpor_nombre").checked) {
-		ordernarInscriptosPorNombre();
+		sistema.ordenarInscriptosPorNombre();
 	} else {
-		ordenarInscriptosPorNumeroCreciente();
-	}
-}
-function ordernarInscriptosPorNombre() {
-	for (let inscripcion of sistema.listaInscripciones) {
-		sistema.listaInscripciones.sort((a, b) =>
-			a.corredor.nombre.localeCompare(b.corredor.nombre)
-		);
-	}
-}
-function ordenarInscriptosPorNumeroCreciente() {
-	for (let inscripcion of sistema.listaInscripciones) {
-		sistema.listaInscripciones.sort(
-			(a, b) => a.numeroInscripcion - b.numeroInscripcion
-		);
+		sistema.ordenarInscriptosPorNumeroCreciente();
 	}
 }
 
