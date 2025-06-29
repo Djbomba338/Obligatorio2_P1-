@@ -1,17 +1,15 @@
-<!-- Juan Pablo Canedo(349963) y Franco Cardozo(456912) -->
-
 <!DOCTYPE html>
+<!-- Juan Pablo Canedo(349963) y Franco Cardozo(456912) -->
 <html lang="es">
 	<head>
-		<meta charset="UTF-8" />
+		<meta charset="UTF-8">
 		<title>Obligatorio 2 - Juan Pablo Canedo y Franco Cardozo</title>
 		<!-- css -->
-		<link rel="stylesheet" href="css/estilos.css" />
+		<link rel="stylesheet" href="css/estilos.css">
 		<!-- js -->
 
 		<!-- Dependencia para el mapa (google charts) -->
 		<script
-			type="text/javascript"
 			src="https://www.gstatic.com/charts/loader.js"
 		></script>
 
@@ -27,7 +25,7 @@
 				src="./img/image.png"
 				alt="Banner del sitio de corredores"
 				width="250"
-			/>
+			>
 		</header>
 
 		<nav>
@@ -41,9 +39,10 @@
 				<h3>Carreras</h3>
 				<form action="#" id="carreras_form">
 					<label for="carreras_nombre">Nombre:</label>
-					<input type="text" id="carreras_nombre" required />
+					<input type="text" id="carreras_nombre" required >
 					<label for="carreras_departamento">Departamento:</label>
 					<select name="departamento" id="carreras_departamento" required>
+						<option value="">Seleccione un departamento</option>
 						<option value="1">Montevideo</option>
 						<option value="2">Canelones</option>
 						<option value="3">Maldonado</option>
@@ -65,7 +64,7 @@
 						<option value="19">Tacuarembó</option>
 					</select>
 					<label for="agregar_carrera_fecha">Fecha: </label>
-					<input required type="date" name="fecha" id="agregar_carrera_fecha" />
+					<input required type="date" name="fecha" id="agregar_carrera_fecha">
 					<label for="agregar_carrera_cupo">Cupo: </label>
 					<input
 						type="number"
@@ -75,8 +74,8 @@
 						min="1"
 						max="1000"
 						required
-					/>
-					<input type="submit" id="agregar_carrera" value="Agregar Carrera" />
+					>
+					<input type="submit" id="agregar_carrera" value="Agregar Carrera">
 				</form>
 			</article>
 			<article id="Patrocinadores">
@@ -88,7 +87,7 @@
 						id="patrocinadores_nombre"
 						name="nombre"
 						required
-					/>
+					>
 
 					<label for="patrocinadores_rubro">Rubro:</label>
 					<select
@@ -96,6 +95,7 @@
 						id="patrocinadores_rubro"
 						required
 					>
+						<option value="">Selecciones un rubro</option>
 						<option value="alimenticio">Alimenticio</option>
 						<option value="Banco">Banco</option>
 						<option value="Bebidas">Bebidas</option>
@@ -117,7 +117,7 @@
 						type="submit"
 						id="agregar_patrocinador"
 						value="Agregar/Actualizar Patrocinador"
-					/>
+					>
 				</form>
 			</article>
 			<article id="Corredores">
@@ -129,7 +129,7 @@
 						name="corredores_nombreCorredor"
 						id="corredores_nombreCorredor"
 						required
-					/>
+					>
 					<label for="corredores_edad">Edad:</label>
 					<input
 						type="number"
@@ -137,14 +137,14 @@
 						id="corredores_edad"
 						min="18"
 						required
-					/>
+					>
 					<label for="corredores_cedula">Cédula:</label>
 					<input
 						type="text"
 						name="corredores_cedula"
 						id="corredores_cedula"
 						required
-					/>
+					>
 
 					<label for="corredores_fecha_vencimiento"
 						>Fecha de vencimiento de ficha médica:
@@ -154,7 +154,7 @@
 						name="corredores_fecha_vencimiento"
 						id="corredores_fecha_vencimiento"
 						required
-					/>
+					>
 
 					<div class="radio_container">
 						<p>Tipo de corredor:</p>
@@ -166,7 +166,7 @@
 							name="corredores_tipo_corredor"
 							value="elite"
 							id="corredores_tipo_corredor_elite"
-						/>
+						>
 						<label for="corredores_tipo_corredor_comun">Deportista común</label>
 						<input
 							type="radio"
@@ -174,10 +174,10 @@
 							value="comun"
 							id="corredores_tipo_corredor_comun"
 							checked
-						/>
+						>
 					</div>
 
-					<input type="submit" id="agregar_corredor" value="Agregar Corredor" />
+					<input type="submit" id="agregar_corredor" value="Agregar Corredor">
 				</form>
 			</article>
 			<article id="inscripciones">
@@ -188,14 +188,18 @@
 						id="inscripciones_corredores"
 						name="inscripciones_corredores"
 						required
-					></select>
+					>
+					<option value="">Seleccione el corredor</option>
+					</select>
 					<label for="inscripciones_carreras">Carreras: </label>
 					<select
 						id="inscripciones_carreras"
 						name="inscripciones_carreras"
 						required
-					></select>
-					<input type="submit" id="agregar_inscripcion" value="Inscribir" />
+					>
+						<option value="">Seleccione la carrera</option>
+					</select>
+					<input type="submit" id="agregar_inscripcion" value="Inscribir">
 				</form>
 			</article>
 		</section>
@@ -236,18 +240,18 @@
 							id="ci_ordenarpor_nombre"
 							name="ci_ordenarpor"
 							value="nombre"
-						/>
+						>
 						<label for="ci_ordenarpor_nombre">Nombre: </label>
 						<input
 							type="radio"
 							id="ci_ordenarpor_numero"
 							name="ci_ordenarpor"
 							value="numero"
-						/>
+						>
 						<label for="ci_ordenarpor_numero">Número: </label>
 					</div>
 				</form>
-				<br />
+				<br>
 				<table id="tabla_inscriptos">
 					<caption>
 						Inscriptos
@@ -271,7 +275,7 @@
 							name="visualizar_mapa"
 							id="visualizar_mapa_carreras"
 							checked
-						/>
+						>
 						<label for="visualizar_mapa_carreras">Por Carreras</label>
 
 						<input
@@ -279,7 +283,7 @@
 							value="inscripciones"
 							id="visualizar_mapa_inscripciones"
 							name="visualizar_mapa"
-						/>
+						>
 						<label for="visualizar_mapa_inscripciones">Por Inscripciones</label>
 					</div>
 				</form>
