@@ -54,6 +54,17 @@ function actualizarSelectConCarreras(selectId) {
 	}
 }
 
+function actualizarSelectConCorredores(selectId) {
+	let select = document.getElementById(selectId);
+	select.innerHTML = "";
+	for (let corredor of sistema.listaCorredores) {
+		let option = document.createElement("option");
+		option.value = corredor.cedula;
+		option.textContent = corredor.nombre + " - " + corredor.cedula;
+		select.appendChild(option);
+	}
+}
+
 //------------------------------------------
 
 // ------------------------------ Carreras ---------------------------
@@ -88,9 +99,8 @@ function sacarDatosCarrera(evento) {
 
 function sacarDatosCorredores(evento) {
 	evento.preventDefault();
-
 	// obtenemos datos y elementos del formulario
-	let formCorredor = document.getElementById("corredores_form");
+	let corredorForm = document.getElementById("corredores_form");
 	let newNombre = document.getElementById("corredores_nombreCorredor").value;
 	let cedula = document.getElementById("corredores_cedula").value;
 	let edad = document.getElementById("corredores_edad").value;
@@ -112,23 +122,11 @@ function sacarDatosCorredores(evento) {
 			tipoCorredor
 		);
 		sistema.agregarCorredor(nuevoCorredor);
-		formCorredor.reset();
-		sistema.ordenarCorredoresPorNombre();
-		actualizarSelectCorredor("inscripciones_corredores");
 	} else {
 		alert("Ingrese datos nuevos, ya existe un corredor con esa cédula");
 	}
-}
-
-function actualizarSelectCorredor(selectId) {
-	let select = document.getElementById(selectId);
-	select.innerHTML = "";
-	for (let corredor of sistema.listaCorredores) {
-		let option = document.createElement("option");
-		option.value = corredor.cedula;
-		option.textContent = corredor.nombre + " - " + corredor.cedula;
-		select.appendChild(option);
-	}
+	corredorForm.reset();
+	actualizar();
 }
 
 //----------------------------------------
@@ -137,86 +135,110 @@ function actualizarSelectCorredor(selectId) {
 
 function sacarDatosPatrocinador(evento) {
 	evento.preventDefault();
-	let formPatrocinador = document.getElementById("patrocinadores_form");
-	let newNombre = document.getElementById("patrocinadores_nombre").value;
-	let newRubro = document.getElementById("patrocinadores_rubro").value;
+
+	// obtenemos datos y elementos del formulario
+	let form = document.getElementById("patrocinadores_form");
+	let nombre = document.getElementById("patrocinadores_nombre").value;
+	let rubro = document.getElementById("patrocinadores_rubro").value;
 	let select = document.getElementById("patrocinadores_carreras");
-	let carreraEncontrada = [];
-	for (let i = 0; i < select.options.length; i++) {
-		if (select.options[i].selected) {
-			carreraEncontrada.push(select.options[i].value);
+	let carrerasQuePatrocina = [];
+	for (option of select.options) {
+		if (option.selected) {
+			carrerasQuePatrocina.push(option.value);
 		}
 	}
-	if (sistema.existePatrocinador(newNombre)) {
-		sistema.actualizarRubroPatrocinador(newNombre, newRubro);
+	//----------
+	if (sistema.existePatrocinador(nombre)) {
+		sistema.actualizarRubroPatrocinador(nombre, rubro);
 	} else {
-		let newArray = new Patrocinador(newNombre, newRubro, carreraEncontrada);
-		sistema.agregarPatrocinador(newArray);
+		let nuevoPatrocinador = new Patrocinador(
+			nombre,
+			rubro,
+			carrerasQuePatrocina
+		);
+		sistema.agregarPatrocinador(nuevoPatrocinador);
 	}
-
-	formPatrocinador.reset();
+	form.reset();
+	actualizar(); // no es necesario tal vez ya que los patrocinadores no figuran en la ui, sin embargo lo dejaria
 }
 
 // ---------------------------------------
 
 // -------------------- Inscripciones ---------------------------
-
 function sacarDatosInscripcion(evento) {
 	evento.preventDefault();
+
+	// sacamos datos del form
 	let selectCorredor = document.getElementById("inscripciones_corredores");
 	let selectCarrera = document.getElementById("inscripciones_carreras");
-	let selectPatrocinador = document.getElementById("patrocinadores_carreras");
+	//--------
 
+	// referencias a los objetos reales del corredor, carrerra y patrocinadores.
 	let corredorEncontrado = sistema.encontrarCorredor(selectCorredor.value);
 	let carreraEncontrada = sistema.encontrarCarrera(selectCarrera.value);
-
 	let patrocinadoresEncontrados = sistema.encontrarPatrocinadoresDeCarrera(
 		carreraEncontrada.nombre
 	);
+	//----------------
 
-	let nombresPatrocinadores = [];
-	let rubrosPatrocinadores = [];
+	// let nombresPatrocinadores = [];
+	// let rubrosPatrocinadores = [];
 
-	if (patrocinadoresEncontrados.length > 0) {
-		for (let i = 0; i < patrocinadoresEncontrados.length; i++) {
-			nombresPatrocinadores.push(patrocinadoresEncontrados[i].nombre);
-			rubrosPatrocinadores.push(patrocinadoresEncontrados[i].rubro);
+	// if (patrocinadoresEncontrados.length > 0) {
+	// 	for (let i = 0; i < patrocinadoresEncontrados.length; i++) {
+	// 		nombresPatrocinadores.push(patrocinadoresEncontrados[i].nombre);
+	// 		rubrosPatrocinadores.push(patrocinadoresEncontrados[i].rubro);
+	// 	}
+	// }
+	if (
+		carreraEncontrada.hayCuposDisponibles() &&
+		carreraEncontrada.validarFichaMedica(corredorEncontrado.fichaMedica)
+	) {
+		const numeroIns = carreraEncontrada.cuposUsados + 1;
+		const inscripcion = new Inscripcion(
+			corredorEncontrado,
+			carreraEncontrada,
+			numeroIns
+		);
+		sistema.agregarInscripcion(inscripcion);
+		carreraEncontrada.cuposUsados += 1;
+
+		let info =
+			"Número: " +
+			numeroIns +
+			"\nNombre: " +
+			corredorEncontrado.nombre +
+			", " +
+			corredorEncontrado.edad +
+			"," +
+			"CI: " +
+			corredorEncontrado.cedula +
+			", " +
+			"Ficha medica: " +
+			corredorEncontrado.fichaMedica +
+			"\n" +
+			corredorEncontrado.tipo +
+			"\nCarrera: " +
+			carreraEncontrada.nombre +
+			" en " +
+			sistema.obtenerNombreDepartamento(carreraEncontrada.departamento) +
+			" el " +
+			carreraEncontrada.fecha +
+			" Cupo: " +
+			carreraEncontrada.cuposMaximos +
+			"\n";
+
+		for (let patrocinador of patrocinadoresEncontrados) {
+			info += patrocinador.nombre + " (" + patrocinador.rubro + ")" + "\n";
 		}
+
+		alert(info);
+		descargarInscripcionPDF(info);
+	} else {
+		alert(
+			"No es posible agregar Inscripcion (No hay cupos disponibles o La ficha medica vence antes de la fecha de la carrera)"
+		);
 	}
-
-	let numeroIns = carreraEncontrada.cuposUsados + 1;
-	let inscripcion = new Inscripcion(
-		corredorEncontrado,
-		carreraEncontrada,
-		numeroIns
-	);
-	sistema.procesarInscripcion(inscripcion);
-
-	let info =
-		"corredor:" +
-		corredorEncontrado.nombre +
-		"\nedad:" +
-		corredorEncontrado.edad +
-		"\ncedula:" +
-		corredorEncontrado.cedula +
-		"\nficha medica:" +
-		corredorEncontrado.fichaMedica +
-		"\nTipo de corredor: " +
-		corredorEncontrado.tipo +
-		"\ncarrera:" +
-		carreraEncontrada.nombre +
-		"\nDepartamento:" +
-		carreraEncontrada.departamento +
-		"\nfecha:" +
-		carreraEncontrada.fecha +
-		"\ncupos usados:" +
-		carreraEncontrada.cuposUsados +
-		"\nNombre/es de patrocinador/es: " +
-		nombresPatrocinadores +
-		"\nRubro/s de patrocinador/es: " +
-		rubrosPatrocinadores;
-	alert(info);
-	descargarInscripcionPDF(info);
 }
 
 // ---------------------------------------------
@@ -240,6 +262,7 @@ function descargarInscripcionPDF(info) {
 function actualizar() {
 	// actualizar sistema
 	sistema.ordenarCarrerasPorNombre();
+	sistema.ordenarCorredoresPorNombre();
 
 	// recalcular cosas y actualizar ui
 	actualizarPromedioInscriptos();
@@ -249,6 +272,7 @@ function actualizar() {
 	actualizarSelectConCarreras("patrocinadores_carreras");
 	actualizarSelectConCarreras("inscripciones_carreras");
 	actualizarSelectConCarreras("consulta_inscriptos_carrera");
+	actualizarSelectConCorredores("inscripciones_corredores");
 }
 
 function actualizarPromedioInscriptos() {
@@ -358,7 +382,7 @@ function iniciarMapa(e) {
 }
 
 const codigoDepartamentoPorNum = [
-	["UY-TA", "Tacuarembo"],
+	null,
 	["UY-MO", "Montevideo"],
 	["UY-CA", "Canelones"],
 	["UY-MA", "Maldonado"],
@@ -377,6 +401,7 @@ const codigoDepartamentoPorNum = [
 	["UY-FD", "Florida"],
 	["UY-LA", "Lavalleja"],
 	["UY-DU", "Durazno"],
+	["UY-TA", "Tacuarembo"],
 ];
 
 function obtenerDatosMapa(modo) {
@@ -384,7 +409,7 @@ function obtenerDatosMapa(modo) {
 	const carreras = sistema.listaCarreras;
 
 	//inicializar todos los datos con 0 y codigos
-	for (let i = 0; i < codigoDepartamentoPorNum.length; i++) {
+	for (let i = 1; i < codigoDepartamentoPorNum.length; i++) {
 		datos.push([
 			{
 				v: codigoDepartamentoPorNum[i][0],

@@ -147,20 +147,6 @@ class Sistema {
 	// ------------------------------------
 	//------------------------------Inscripciones------------------------
 
-	procesarInscripcion(inscripcion) {
-		let carrera = inscripcion.carrera;
-		let corredor = inscripcion.corredor;
-		if (
-			carrera.hayCuposDisponibles() &&
-			carrera.validarFichaMedica(corredor.fichaMedica)
-		) {
-			this.agregarInscripcion(inscripcion);
-			carrera.cuposUsados += 1;
-		} else {
-			alert("No es posible agregar Inscripcion");
-		}
-	}
-
 	agregarInscripcion(inscripcion) {
 		this.listaInscripciones.push(inscripcion);
 	}
@@ -177,6 +163,32 @@ class Sistema {
 			}
 		}
 		return patrocinadoresEncontrados;
+	}
+
+	obtenerNombreDepartamento(codigo) {
+		let departamentos = [
+			null,
+			"Montevideo",
+			"Canelones",
+			"Maldonado",
+			"Rocha",
+			"Treinta y Tres",
+			"Cerro Largo",
+			"Rivera",
+			"Artigas",
+			"Salto",
+			"Paysandú",
+			"Río Negro",
+			"Soriano",
+			"Colonia",
+			"San José",
+			"Flores",
+			"Florida",
+			"Lavalleja",
+			"Durazno",
+			"Tacuarembó",
+		];
+		return departamentos[codigo];
 	}
 }
 
@@ -222,17 +234,6 @@ class Corredor {
 	}
 }
 
-class Inscripcion {
-	constructor(corredor, carrera, numeroInscripcion) {
-		this.corredor = corredor;
-		this.carrera = carrera;
-		this.numeroInscripcion = numeroInscripcion;
-	}
-	toString() {
-		return this.corredor + this.carrera + this.numeroInscripcion;
-	}
-}
-
 class Patrocinador {
 	constructor(nombre, rubro, carreras = []) {
 		this.nombre = nombre;
@@ -241,5 +242,16 @@ class Patrocinador {
 	}
 	agregarCarrera(carrera) {
 		this.carreras.push(carrera);
+	}
+}
+
+class Inscripcion {
+	constructor(corredor, carrera, numeroInscripcion) {
+		this.corredor = corredor;
+		this.carrera = carrera;
+		this.numeroInscripcion = numeroInscripcion;
+	}
+	toString() {
+		return this.corredor + this.carrera + this.numeroInscripcion;
 	}
 }
