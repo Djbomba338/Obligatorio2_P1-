@@ -1,4 +1,4 @@
-// Juan Pablo Canedo(349963) y Franco Cardozo(456912)
+// Juan Pablo Canedo(349963) y Franco Cardozo(345912)
 
 window.addEventListener("load", inicio);
 const sistema = new Sistema();
@@ -253,7 +253,6 @@ function actualizar() {
 	actualizarSelectConCarreras("inscripciones_carreras");
 	actualizarSelectConCarreras("consulta_inscriptos_carrera");
 	actualizarSelectConCorredores("inscripciones_corredores");
-
 	iniciarMapa();
 }
 

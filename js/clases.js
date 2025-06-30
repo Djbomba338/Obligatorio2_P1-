@@ -1,4 +1,4 @@
-// Juan Pablo Canedo(349963) y Franco Cardozo(456912)
+// Juan Pablo Canedo(349963) y Franco Cardozo(345912)
 class Sistema {
 	constructor() {
 		this.listaCarreras = [];
